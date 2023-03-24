@@ -56,7 +56,7 @@ const ChatBox: React.FC<Props> = () => {
           action.updateMessageList(newUserMessage);
           // send post request
           const res = axios
-            .post(`http://localhost:3000/send-message`, 
+            .post(`chitchat-ai-backend:3000/send-message`, 
             {
               "user_id": state.userId,
               "model_id": state.curImageId.toString(),
