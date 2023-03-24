@@ -262,7 +262,7 @@ export const ImageCard = ({ idCardFlipped, imgOnClick, imgItem }: Props) => {
                   // update curModel name
                   state.curModelName = imgName;
                   axios
-                    .post(`http://chitchat-ai-backend:3000/join-chat`,
+                    .post(`https://chitchat-ai-backend:3000/join-chat`,
                       {
                         "user_id": state.userId,
                         "model_id": imgId

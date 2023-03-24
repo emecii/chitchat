@@ -44,7 +44,7 @@ const RegisterBlock = () => {
   const goToRegister = async (phone: string, code: string) => {
     console.log("go to register")
     const res = await axios
-      .post(`http://chitchat-ai-backend:3000/api/auth/verify`,
+      .post(`https://chitchat-ai-backend:3000/api/auth/verify`,
         {
           "otp": code,
           "phone": phone
@@ -112,7 +112,7 @@ const RegisterBlock = () => {
     }
     console.log("data.phoneNumber", data.phoneNumber)
     const res = await axios
-      .post(`http://chitchat-ai-backend:3000/api/auth/login_or_register`,
+      .post(`https://chitchat-ai-backend:3000/api/auth/login_or_register`,
         {
           "phone": data.phoneNumber
         })
