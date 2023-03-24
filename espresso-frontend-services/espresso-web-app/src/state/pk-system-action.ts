@@ -20,7 +20,7 @@ export const pkSystemAction = {
         }
         console.log("fetchUserProfile gender", gender, "userName:", userName, "userID:", curUserId);
         await axios
-            .post(`chitchat-ai-backend:3000/user-profile`,
+            .post(`http://chitchat-ai-backend:3000/user-profile`,
                 {
                     "user_id" : curUserId,
                     "user_name" : userName,
@@ -49,7 +49,7 @@ export const pkSystemAction = {
                 // send reqire models
                 console.log("gender", gender, "genderToRequiredGender", genderToRequiredGender[gender])
                 await axios
-                    .get(`chitchat-ai-backend:3000/model-profile`,
+                    .get(`http://chitchat-ai-backend:3000/model-profile`,
                         {
                             params: {
                                 gender: genderToRequiredGender[gender]
