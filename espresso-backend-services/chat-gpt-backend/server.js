@@ -11,8 +11,9 @@ import { connect } from "./mongo.js";
 import { model, mongoose } from "mongoose";
 import { ObjectId } from 'mongodb';
 import cors from "cors";
-import { is_response_include_forbidden_words, return_postpone_words, return_greeting_words } from "./util.js";
+import { is_response_include_forbidden_words, return_postpone_words, return_greeting_words, build_context } from "./util.js";
 import { authRoutes } from "./routes/auth.route.js";
+import { storeChat, searchChat } from "./embeddings.js";
 
 const app = express();
 app.use(cors({
@@ -41,11 +42,19 @@ app.post("/send-message", async (req, res) => {
   
   try {
     console.log(`conv is ${conv.conv_id}, msg is ${conv.last_msg_id}`);
-    var response = await chat_client.send_message(message, conv.conv_id, conv.last_msg_id);
+    var context = await searchChat(user_id, model_id, message, 10);
+    var context_history = "";
+    if (context) {
+      console.log('Building context history...');
+      context_history = build_context(context);
+    }
+    var response = await chat_client.send_message(`Q:${message} ${context_history}`, conv.conv_id, conv.last_msg_id);
     // TODO: implement bulk insertion
     await insertChat({conv_id: conv.conv_id, message: message, is_user: true});
+    await storeChat(user_id, model_id, `${user.user_name}: ${message}`);
     console.log(response);
     var res_message = response.response;
+    await storeChat(user_id, model_id, `${model.model_name}: ${res_message}`);
     if (is_response_include_forbidden_words(res_message)) {
         console.log("Reinit ChatGPT since AI GF ends role play.");
         var reinit_res = await chat_client.reinit_conv(conv.conv_id, response.messageId, model_id);

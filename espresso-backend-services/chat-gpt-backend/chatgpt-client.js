@@ -4,6 +4,7 @@ import * as fs from "fs";
 import dotenv from 'dotenv';
 import { getChatHistoryByConvId } from "./services/chatHistoryService.js";
 import { model } from 'mongoose';
+import { getOpenAiApiKey } from './util.js';
 dotenv.config();
 // require('dotenv').config();
 
@@ -49,8 +50,7 @@ export default class ChatClient {
     let tmp_clientOptions = Object.assign({}, clientOptions);
     tmp_clientOptions.userLabel = user_name;
     tmp_clientOptions.chatGptLabel = model_name;
-    var api_keys = process.env.OPENAI_APIKEY.split(",");
-    var api_key = api_keys[Math.floor(Math.random()*api_keys.length)];
+    var api_key = getOpenAiApiKey();
     this.client = new ChatGPTClient(api_key, tmp_clientOptions, cacheOptions);
     this.user_name = user_name;
     this.model_name = model_name;
@@ -83,13 +83,12 @@ export default class ChatClient {
     if (chat_history == null) {
       var chat_history = await getChatHistoryByConvId(conv_id);
     }
-    // TODO: add summary of the chat history if token is above the limit
-    var reinit_prompt = text + "之前的聊天记录如下：\n" + this.build_prompt_by_history(chat_history);
+    var reinit_prompt = text;
     return await this.send_message(reinit_prompt, conv_id, last_msg_id);
   }
 
   dfs_split_prompt(prompt, prompt_array) {
-    var token_count = chatGptClient.getTokenCountForMessage(prompt);
+    var token_count = this.client.getTokenCountForMessage(prompt);
     if (token_count <= MAX_PROMPT_TOKEN - 100) {
       prompt_array.push(prompt);
     } else {
