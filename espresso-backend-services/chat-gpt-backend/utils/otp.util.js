@@ -12,10 +12,6 @@ var client = new Core({
     apiVersion: '2017-05-25'
   });
 
-var requestOption = {
-    method: 'POST'
-};
-
 var config = {
   method: 'post',
   url: 'https://dfsns.market.alicloudapi.com/data/send_sms',
@@ -39,17 +35,17 @@ export function generateOTP(otp_length) {
 
 export async function fast2sms(code, contactNumber, next) {
   try {
-    var data = qs.stringify({
-      content: `code:${code}`,
-      phone_number: contactNumber,
-      template_id: 'CST_ptdie100'
-    });
-    config.data = data;
-
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-    });
+    var params = {
+      "PhoneNumbers": contactNumber,//接收短信的手机号码
+      "SignName": "小半AI",//短信签名名称
+      "TemplateCode": "SMS_274555169", //短信模板CODE
+      "TemplateParam": `{"code":"${code}"}`//短信模板变量对应的实际值，JSON格式
+    }
+    var requestOption = {
+      method: 'POST'
+    };
+    let result = await client.request('SendSms', params, requestOption);
+    console.log(result);
   } catch (error) {
     next(error);
   }
