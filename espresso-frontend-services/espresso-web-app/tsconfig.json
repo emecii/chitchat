@@ -21,6 +21,6 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src", "image.d.ts"
+    "src", "image.d.ts", "typings/**/*"
   ]
 }

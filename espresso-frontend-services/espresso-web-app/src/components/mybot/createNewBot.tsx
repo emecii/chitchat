@@ -10,6 +10,10 @@ import { genderChineseToRequiredType } from '../../util/genderChineseToRequiredT
 import { HttpStatus } from '../../types/HttpStatus';
 import { message, Modal } from 'antd';
 import RegisterBlock from '../../app/RegisterBlock';
+import { useShareToWechat } from './shareToWeChat';
+import { useNavigate } from 'react-router-dom';
+
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -231,6 +235,7 @@ const CreateNewBot = () => {
   const [isPublicAiBot, setIsPublicAiBot] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const navigate = useNavigate();
 
   const handleTagClick = (tag: string) => {
     if (selectedTags.includes(tag)) {
@@ -240,8 +245,9 @@ const CreateNewBot = () => {
     }
   };
 
-  const handleShareToWeChat = () => {
-    // 在这里实现分享到微信朋友圈的功能
+  const redirectToChat = (url: string) => {
+    // 在这里实现跳转到聊天页面
+    navigate(url);
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -297,6 +303,8 @@ const CreateNewBot = () => {
 
   const userId = state.userId === "unknown" ? createRandomUserId() : state.userId;
   const modelId = createRandomUserId(); // Generate a random one;
+  const url = `${ENDPOINT}/chat/${modelId}`;
+  const chat_url = `/chat/${modelId}`;
 
   const handleSubmit = async () => {
     const modelMetadata = {
@@ -503,8 +511,8 @@ const CreateNewBot = () => {
         footer={null}
         onCancel={handleModalCancel}
       >
-        <StyledButton primary onClick={handleShareToWeChat}>开始聊天</StyledButton>
-        <StyledButton onClick={handleShareToWeChat}>分享到朋友圈赚取点数</StyledButton>
+        <StyledButton primary onClick={() => redirectToChat(chat_url)}>开始聊天</StyledButton>
+        <StyledButton onClick={useShareToWechat(url)}>分享到朋友圈赚取点数</StyledButton>
 
       </Modal>
                     
