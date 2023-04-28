@@ -3,6 +3,32 @@
 @import url('https://fonts.googleapis.com/css?family=Abril+Fatface&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
+
+.chat-container {
+  display: flex;
+}
+
+.model-list {
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.model-avatar {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.model-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
 .empty-chat-holder {
   width: 100%;
   height: 250px;
@@ -140,14 +166,17 @@
 }
 
 .chat-box {
-  font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;;
+  font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   position: relative;
   height: 600px;
   letter-spacing: 0.5px;
   background: #e9d6d6;
   padding: 0 !important;
   box-sizing: border-box;
-  margin: 0rem 3rem 5rem 5rem;
+  margin: 0rem 3rem 5rem 0rem; 
   border-color: #828080;
   border-radius: 2rem;
 }

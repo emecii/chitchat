@@ -31,6 +31,7 @@ export interface Model {
       开场问候语类型: string;
       头像地址src: string;
       Lora地址: string;
+      image_url: string;
     };
     createdAt: string;
     updatedAt: string;
