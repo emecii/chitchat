@@ -67,17 +67,19 @@
 }
 
 .input-group {
+  display: flex;  /* 添加这行 */
+  align-items: center;  /* 添加这行 */
   margin-right: 20px;
   border-top: 1px solid #fff;
   width: 100% !important;
   background-color: #e9d6d6;
-  height: 100%;
-  border-radius: 0 0 7px 7px;
+  height: 110%;
+  border-radius: 0 0 30px 30px;
 }
 
 .input-group input {
+  flex-grow: 1;
   margin-top: 1rem;
-  height: 100%;
   background: #e9d6d6;
 }
 
@@ -214,4 +216,17 @@
 
 .chat-box-bottom {
   margin-top: auto;
+}
+
+.svg-icon {
+  background-color: transparent;
+}
+
+.send-button {
+  flex-shrink: 0;  /* 添加这行 */
+  background-color: transparent; /* 使按钮背景透明 */
+  border: none; /* 移除边框 */
+  outline: none; /* 移除轮廓 */
+  cursor: pointer; /* 将鼠标指针变为手指形状 */
+  margin-right: 1rem;
 }

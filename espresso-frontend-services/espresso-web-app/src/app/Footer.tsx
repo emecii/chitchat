@@ -177,7 +177,7 @@ const Footer = () => {
       </Container>
       <Bottom>
         <span>
-          &copy; {new Date().getFullYear()} 小伴. 沪ICP备12345号-12
+          &copy; {new Date().getFullYear()} 柒洽. 
         </span>
 
       </Bottom>

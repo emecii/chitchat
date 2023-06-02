@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import "@fontsource/zcool-kuaile"
-import logo from '../assets/temporary-logo.png';
+import logo from '../assets/logo.svg';
 
 const LogoContainer = styled.div`
   display: flex;
@@ -30,8 +30,9 @@ transition: all 0.2s ease;
 export const Logo = () => {
     return (
         <LogoContainer>
+            
             <LogoImage src={logo} alt="Logo" />
-            <LogoText>七洽</LogoText>
+            <LogoText>柒洽</LogoText>
         </LogoContainer>
     )
 }

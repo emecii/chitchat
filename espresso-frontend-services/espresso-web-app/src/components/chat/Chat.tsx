@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
 import PropTypes from 'prop-types';
-import {MessageList} from './MessageList';
+import { MessageList } from './MessageList';
 // import SendMessageForm from '../SendMessageForm/SendMessageForm';
 import { User } from '../../types/User';
 import { IMessage } from '../../types/IMessage';
 import './style.css';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { If } from '../../app/If';
+import sendIcon from '../../assets/send-icon.svg';
 
 interface Props {
   messages: IMessage[];
@@ -19,21 +20,20 @@ var console = require("console-browserify")
 
 export const Chat = ({ messages, isLoading, user, onSubmit, pageRef }: Props) => {
   const scrollToDiv = useRef<HTMLDivElement>(null);
-  const [state,action] = usePkSystemHook();
+  const [state, action] = usePkSystemHook();
   const [message, setMessage] = useState("")
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      if(scrollToDiv.current)
-      scrollToDiv.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+      if (scrollToDiv.current)
+        scrollToDiv.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     }, 100);
   }
 
   useEffect(() => {
-    console.log("chat messageList", state.messageList);
     scrollToBottom()
   }, [state.messageList]);
-  return(
+  return (
     <div className='chat-box'>
       <div className='msg-page'>
         <MessageList
@@ -51,29 +51,32 @@ export const Chat = ({ messages, isLoading, user, onSubmit, pageRef }: Props) =>
           className='message-form'
           onSubmit={
             (event: FormEvent) => {
+              event.preventDefault();
               onSubmit(message);
               setMessage("");
-              event.preventDefault();
             }
           }>
           <If condition={action.isModelSelected() === true}>
-          <div className='input-group'>
-            <input
-              type='text'
-              className='form-control message-input'
-              placeholder='在这里输入'
-              value={message}
-              onChange={
-                (event: React.ChangeEvent<HTMLInputElement>) => {
-                  setMessage(event.target.value)
+            <div className='input-group'>
+              <input
+                type='text'
+                className='form-control message-input'
+                placeholder='在这里输入'
+                value={message}
+                onChange={
+                  (event: React.ChangeEvent<HTMLInputElement>) => {
+                    setMessage(event.target.value)
+                  }
                 }
-              }
-              required
-            />
-          </div>
+                required
+              />
+              <button className='send-button' type='submit'>
+                <img className='svg-icon' src={sendIcon} alt='send' />
+              </button>
+            </div>
           </If>
         </form>
       </div>
-  </div>
+    </div>
   )
 };

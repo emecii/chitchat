@@ -75,7 +75,7 @@ const TypeWriterText = () => {
   return (
     <>
       <Title>
-        七洽相伴 恰好遇见你
+        柒洽相伴 恰好遇见你
         <Typewriter
           options={{
             autoStart: true,

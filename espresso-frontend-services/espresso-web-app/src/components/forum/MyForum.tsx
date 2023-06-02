@@ -58,7 +58,9 @@ const MyForum: React.FC = () => {
     setCurrentPage(pageNumber);
   };
 
-  const handleVote = async (model_id: string, isUpvote: boolean) => {
+  const handleVote = async (model_id: string, isUpvote: boolean, event: React.MouseEvent) => {
+    event.stopPropagation();
+    
     const upVote = isUpvote ? 1 : 0;
     const downVote = isUpvote ? 0 : 1;
     await updateVotes(model_id, upVote, downVote);
@@ -107,11 +109,11 @@ const MyForum: React.FC = () => {
               <p>{model.model_metadata.description}</p>
             </ModelInfo>
             <VoteSection>
-              <VoteButton onClick={() => handleVote(model.model_id, true)}>
+              <VoteButton onClick={(e) => handleVote(model.model_id, true, e)}>
                 <UpvoteIcon />
                 <span>{model.model_metadata.upVote}</span>
               </VoteButton>
-              <VoteButton onClick={() => handleVote(model.model_id, false)}>
+              <VoteButton onClick={(e) => handleVote(model.model_id, false, e)}>
                 <DownvoteIcon />
                 <span>{model.model_metadata.downVote}</span>
               </VoteButton>

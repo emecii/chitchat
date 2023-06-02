@@ -32,9 +32,9 @@ export function useShareToWechat(url: string, imgSrc: string, aiName: string) {
         nativeShare.setShareData({
             icon: imgSrc,
             link: url,
-            title: '七洽AI: 最懂你的AI伴侣',
+            title: '柒洽AI: 最懂你的AI伴侣',
             desc: `快来和我的AI${aiName}聊天吧！`,
-            from: '七洽AI',
+            from: '柒洽AI',
         });
 
         try {
