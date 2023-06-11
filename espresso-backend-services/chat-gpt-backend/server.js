@@ -74,24 +74,28 @@ app.post("/send-message", async (req, res) => {
     const condition = { 'user_id': user_id, 'model_id': model_id };
     var conv = await getConv(condition);
     console.log(`conv is ${conv.conv_id}, msg is ${conv.last_msg_id}`);
-    var response = await chat_client.send_message(message, conv.conv_id, conv.last_msg_id);
+    var response = await chat_client.send_message(message, conv.conv_id, conv.last_msg_id, model_id);
     // TODO: implement bulk insertion
     await insertChat({ conv_id: conv.conv_id, message: message, is_user: true });
     console.log(response);
-    var res_message = response.response;
-    if (is_response_include_forbidden_words(res_message)) {
-      console.log("Reinit ChatGPT since AI GF ends role play.");
-      var reinit_res = await chat_client.reinit_conv(conv.conv_id, response.messageId, model_id);
-      // resend message to conv
-      response = await chat_client.send_message(message, conv.conv_id, reinit_res.messageId);
-    }
+    var new_msg = "";
+    if (model_id != '1001') {
+      var res_message = response.response;
+      if (is_response_include_forbidden_words(res_message)) {
+        console.log("Reinit ChatGPT since AI GF ends role play.");
+        var reinit_res = await chat_client.reinit_conv(conv.conv_id, response.messageId, model_id);
+        // resend message to conv
+        response = await chat_client.send_message(message, conv.conv_id, reinit_res.messageId, model_id);
+      }
 
-    var new_msg = response.response;
-    if (is_response_include_forbidden_words(new_msg)) {
-      // Still contains forbidden word.
-      new_msg = return_postpone_words(model_gender);
+      new_msg = response.response;
+      if (is_response_include_forbidden_words(new_msg)) {
+        // Still contains forbidden word.
+        new_msg = return_postpone_words(model_gender);
+      }
+    } else {
+      new_msg = response;
     }
-
     conv.conv_id = response.conversationId;
     conv.last_msg_id = response.messageId;
     await updateConv(condition, conv);
@@ -148,16 +152,22 @@ app.post("/join-chat", async (req, res) => {
     // init a new converstation for a new user
     var response = await chat_client.init_conv(model_id);
     console.log(response);
-    // retry if response contains forbidden words
-    if (is_response_include_forbidden_words(response.response)) {
-      response = await chat_client.init_conv(model_id);
-    }
+    // skip check for model 1001
+    if (model_id != '1001') {
+      // retry if response contains forbidden words
+      if (is_response_include_forbidden_words(response.response)) {
+        response = await chat_client.init_conv(model_id);
+      }
 
-    var msg = response.response;
-    // if still contains forbidden words, return a greeting message
-    if (is_response_include_forbidden_words(msg)) {
-      msg = return_greeting_words(model_gender);
+      var msg = response.response;
+      // if still contains forbidden words, return a greeting message
+      if (is_response_include_forbidden_words(msg)) {
+        msg = return_greeting_words(model_gender);
+      }
+    } else {
+      msg = response;
     }
+    
     var conv = {
       user_id: user_id,
       model_id: model_id,

@@ -82,7 +82,8 @@ export default class ChatClient {
     try {
       var text = await this.read_init_prompt(model_id);
       if (external_model_ids.includes(model_id)) {
-        text = 'Hi';  
+        text = 'Hi';
+        return await this.sendExternalMessage(text);
       }
       return await this.client.sendMessage(text);
     } catch (err) {
@@ -93,6 +94,7 @@ export default class ChatClient {
 
   async send_message(msg, conv_id, last_msg_id, model_id) {
     if (external_model_ids.includes(model_id)) {
+      console.log("Sending external message");
       return await this.sendExternalMessage(msg);
     }
     var count = this.client.getTokenCountForMessage(msg);
@@ -104,13 +106,11 @@ export default class ChatClient {
 
   async sendExternalMessage(msg) {
     try {
-      await axios.post('https://callannie.azurewebsites.net/api/callannie', {
-        query: msg,
-      })
-        .then(function (response) {
-          console.log(JSON.stringify(response));
-          return response.message;
+      const response = await axios.post('https://callannie.azurewebsites.net/api/callannie', {
+        query: msg
       });
+      console.log(response);
+      return response.data.message;
     } catch (error) {
       throw error;
     }
@@ -127,6 +127,7 @@ export default class ChatClient {
     var reinit_prompt = text + "之前的聊天记录如下：\n" + this.build_prompt_by_history(chat_history);
     if (external_model_ids.includes(model_id)) {
       reinit_prompt = 'Hi';
+      return await this.sendExternalMessage(reinit_prompt);
     }
     return await this.send_message(reinit_prompt, conv_id, last_msg_id, model_id);
   }
