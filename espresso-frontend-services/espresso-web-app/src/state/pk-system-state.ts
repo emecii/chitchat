@@ -14,6 +14,7 @@ export const pkSystemState = {
     curModelSrc: "",
     curModelIdString: "",
     modalOpen: false,
+    isLoggedIn: false,
 };
 
 export type PkSystemState = {
@@ -28,4 +29,5 @@ export type PkSystemState = {
     curModelSrc: string;
     modalOpen: boolean;
     curModelIdString: string;
+    isLoggedIn: boolean;
 };

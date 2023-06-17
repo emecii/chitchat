@@ -34,6 +34,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const userToken = localStorage.getItem('userToken'); // Get the userToken from localStorage
             if (!userToken) {
                 setIsLoggedIn(false);
+                
                 action.setModelOpen(true);
                 return;
             }
@@ -49,6 +50,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             action.setUserName(response.data.data.userName);
             
             setIsLoggedIn(true);
+            action.setIsLoggedIn(true);
             action.setModelOpen(false);
         } catch (error) {
             if (error instanceof AxiosError && error.response && error.response.status === 401) {
@@ -56,6 +58,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 localStorage.removeItem("userToken"); // Clear the userToken from localStorage
             }
             setIsLoggedIn(false);
+            action.setIsLoggedIn(false);
         }
     };
 

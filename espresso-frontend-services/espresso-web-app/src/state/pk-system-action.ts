@@ -86,6 +86,12 @@ export const pkSystemAction = {
                 //console.log("set userId: ", uId)
                 setState({ userId: uId });
             },
+    setIsLoggedIn:
+        (isLoggedIn: boolean) =>
+            ({ setState }: pkSystemApi) => {
+                //console.log("set isLoggedIn: ", isLoggedIn)
+                setState({ isLoggedIn: isLoggedIn });
+            },
     setGender:
         (gender: GenderType) =>
             ({ setState }: pkSystemApi) => {

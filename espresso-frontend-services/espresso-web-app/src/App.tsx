@@ -22,7 +22,7 @@ const App: React.FC = () => {
   useEffect(() => {
     initialize();
     logPageView(location.pathname);
-    if (!localStorage.getItem("userToken")) {
+    if (state.isLoggedIn === false) {
       action.setModelOpen(true);
     } else {
       action.setModelOpen(false);
