@@ -61,12 +61,15 @@ const RegisterBlock = () => {
   // Handle register form submission
   const handleRegisterSubmit = async (values: any) => {
     const { userName, dob, gender, city, phoneNumber } = values;
-    // create a random user_id
-    var randomId = Math.random().toString(36).substring(7);
+    if (state.userId === "unknown") {
+      // create a random user_id
+      var randomId = Math.random().toString(36).substring(7);
+      action.setUserId(randomId);
+    }
 
     await axios
       .post(`${ENDPOINT}/api/user-profile`, {
-        user_id: randomId,
+        user_id: state.userId,
         user_name: userName,
         gender: gender,
         birthday: dob,

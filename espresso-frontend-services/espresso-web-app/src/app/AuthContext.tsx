@@ -23,7 +23,12 @@ const useAuth = () => {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [, action] = usePkSystemHook();
+    const [state, action] = usePkSystemHook();
+    if (state.userId === "unknown") {
+        // get a random user id and set it to the state
+        var randomId = Math.random().toString(36).substring(7);
+        action.setUserId(randomId);
+    }
     const checkAuthentication = async () => {
         try {
             const userToken = localStorage.getItem('userToken'); // Get the userToken from localStorage
