@@ -7,6 +7,8 @@ import { authRoutes } from "./routes/auth.route.js";
 import { apiRoutes } from "./routes/api.route.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 dotenv.config();
 const app = express();
@@ -35,6 +37,25 @@ app.use(
     credentials: true, // Allow the server to accept cookies from the client
   })
 );
+
+const options = {
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'ChitChat API',
+      version: '1.0.0',
+    },
+  },
+  // Path to the API docs
+  apis: ['./routes/*.js'],
+};
+
+const specs = swaggerJsdoc(options);
+
+if (process.env.NODE_ENV !== 'production') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs, { explorer: true }));
+}
+
 const port = 3000;
 
 // connect mongo client
