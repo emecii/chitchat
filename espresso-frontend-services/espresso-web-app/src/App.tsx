@@ -27,7 +27,7 @@ const App: React.FC = () => {
     } else {
       action.setModelOpen(false);
     }
-  }, [location, state.userId]);
+  }, [location, state.isLoggedIn]);
 
   return (
       <div>
