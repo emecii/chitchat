@@ -22,12 +22,7 @@ const App: React.FC = () => {
   useEffect(() => {
     initialize();
     logPageView(location.pathname);
-    if (state.isLoggedIn === false) {
-      action.setModelOpen(true);
-    } else {
-      action.setModelOpen(false);
-    }
-  }, [location, state.isLoggedIn]);
+  }, [location, state.modalOpen]);
 
   return (
       <div>

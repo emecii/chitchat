@@ -34,7 +34,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const userToken = localStorage.getItem('userToken'); // Get the userToken from localStorage
             if (!userToken) {
                 setIsLoggedIn(false);
-                
                 action.setModelOpen(true);
                 return;
             }
