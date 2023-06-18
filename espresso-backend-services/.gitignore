@@ -1,9 +1,0 @@
-venv
-__pycache__
-.pytest_cache
-.env
-chat-gpt-backend/.env
-chat-gpt-backend/node_modules
-chat-gpt-backend/package-lock.json
-chat-gpt-backend/cache.json
-chat-gpt-backend/embeddings.js
