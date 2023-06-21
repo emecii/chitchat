@@ -25,12 +25,7 @@ export type PkSystemState = {
     isFlippedCardOne: boolean | undefined;
     curImageId: number;
     messageList: IMessage[];
-    user: {
-        id: string,
-        gender: GenderType,
-        userName: string,
-        role: UserRole,
-    }
+    user: LoginUser;
     modelArrays: Model[];
     curModelName: string;
     curModelSrc: string;
@@ -38,3 +33,10 @@ export type PkSystemState = {
     curModelIdString: string;
     isLoggedIn: boolean;
 };
+
+export type LoginUser = {
+    id: string,
+    gender: GenderType,
+    userName: string,
+    role: UserRole,
+} // TODO: Consolidate this with User type

@@ -25,7 +25,7 @@ const useAuth = () => {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [state, action] = usePkSystemHook();
-    if (state.user.role === UserRole.GUEST) {
+    if (state.user.role === UserRole.GUEST && state.user.id === 'unknown') {
         // get a random user id and set it to the state
         var randomId = Math.random().toString(36).substring(7);
         action.setUserId(randomId);

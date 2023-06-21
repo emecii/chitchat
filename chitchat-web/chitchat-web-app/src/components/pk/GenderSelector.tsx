@@ -4,6 +4,8 @@ import { message } from 'antd';
 import GenderType from '../../types/GenderType';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import UserRole from '../../types/UserRole';
+import { LoginUser } from '../../state/pk-system-state';
+import _ from 'lodash';
 var console = require("console-browserify")
 
 const Container = styled.div`
@@ -74,26 +76,35 @@ const SubmitButton = styled.button`
 `;
 
 const GenderSelector: React.FC = () => {
-  const [selectedGender, setSelectedGender] = useState<GenderType | null>(null);
-  const [nickname, setNickname] = useState<string>('');
+  const [selectedLoginUser, setSelectedLoginUser] = useState<Partial<LoginUser>>({
+    role: UserRole.GUEST,  // default guest
+  });
   const [state, action] = usePkSystemHook();
 
   const handleGenderClick = (gender: GenderType) => {
-    setSelectedGender(gender);
+    const newUserState = _.cloneDeep(selectedLoginUser);
+    newUserState.gender = gender; 
+    setSelectedLoginUser(newUserState);
   };
 
+  const setNickname = (nickName: string) => {
+    const newUserState = _.cloneDeep(selectedLoginUser);
+    newUserState.userName = nickName; 
+    setSelectedLoginUser(newUserState);
+  }
+
   const handleSubmit = async () => {
-    if (!selectedGender || !nickname) {
+    if (!selectedLoginUser.gender || !selectedLoginUser.userName) {
       message.error('请选择性别并输入昵称');
     } else {
       // set userName and Gender to state
-      action.setUserName(nickname);
-      action.setGender(selectedGender);
+      action.setUserName(selectedLoginUser.userName);
+      action.setGender(selectedLoginUser.gender);
       // Fetch model-profile
-      action.fetchModelProfile(selectedGender);
+      action.fetchModelProfile(selectedLoginUser.gender);
       // Regisetr user profile
-      action.registerNewUserProfile(selectedGender, nickname);
-      action.setUserRole(UserRole.USER);
+      action.registerNewUserProfile(selectedLoginUser.gender, selectedLoginUser.userName);
+      action.setUserRole(UserRole.USER); // TODO set user role
     }
   };
 
@@ -102,7 +113,7 @@ const GenderSelector: React.FC = () => {
       <FlexContainer>
         <div>
           <GenderButton
-            selected={selectedGender === GenderType.MALE}
+            selected={selectedLoginUser.gender === GenderType.MALE}
             onClick={() => handleGenderClick(GenderType.MALE)}
           >
             ♂
@@ -111,7 +122,7 @@ const GenderSelector: React.FC = () => {
         </div>
         <div>
           <GenderButton
-            selected={selectedGender === GenderType.FAMALE}
+            selected={selectedLoginUser.gender === GenderType.FAMALE}
             onClick={() => handleGenderClick(GenderType.FAMALE)}
           >
             ♀
@@ -120,7 +131,7 @@ const GenderSelector: React.FC = () => {
         </div>
         <div>
           <GenderButton
-            selected={selectedGender === GenderType.OTHER}
+            selected={selectedLoginUser.gender === GenderType.OTHER}
             onClick={() => handleGenderClick(GenderType.OTHER)}
           >
             ⚧
@@ -131,7 +142,7 @@ const GenderSelector: React.FC = () => {
       <NicknameInput
         type="text"
         placeholder="请输入你的昵称"
-        value={nickname}
+        value={selectedLoginUser.userName}
         onChange={(e) => setNickname(e.target.value)}
       />
       <SubmitButton onClick={handleSubmit}>开始匹配</SubmitButton>

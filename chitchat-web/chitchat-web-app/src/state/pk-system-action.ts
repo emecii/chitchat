@@ -82,7 +82,7 @@ export const pkSystemAction = {
                 //console.log("set user name: ", uName)
                 const userNewState = _.cloneDeep(getState().user);
                 userNewState.userName = uName;
-                setState({ user : userNewState });
+                setState({ user: userNewState });
             },
     setUserId:
         (uId: string) =>
@@ -90,7 +90,7 @@ export const pkSystemAction = {
                 //console.log("set userId: ", uId)
                 const userNewState = _.cloneDeep(getState().user);
                 userNewState.id = uId;
-                setState({ user : userNewState });
+                setState({ user: userNewState });
             },
     setGender:
         (uGender: GenderType) =>
@@ -98,7 +98,7 @@ export const pkSystemAction = {
                 //console.log("set gender: ", gender)
                 const userNewState = _.cloneDeep(getState().user);
                 userNewState.gender = uGender;
-                setState({ user : userNewState });
+                setState({ user: userNewState });
             },
     setUserRole:
         (uRole: UserRole) =>
@@ -106,7 +106,7 @@ export const pkSystemAction = {
                 //console.log("set gender: ", gender)
                 const userNewState = _.cloneDeep(getState().user);
                 userNewState.role = uRole;
-                setState({ user : userNewState });
+                setState({ user: userNewState });
             },
     setIsLoggedIn:
         (isLoggedIn: boolean) =>
