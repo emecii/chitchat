@@ -357,7 +357,7 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
     setIsModalOpen(true);
   };
 
-  const userId = state.userId === "unknown" ? createRandomUserId() : state.userId;
+  const userId = state.user.id === "unknown" ? createRandomUserId() : state.user.id;
   const MODEL_URL = `${FRONT_ENDPOINT}/chat/${modelId}`;
   const CHAT_URL = `/chat/${modelId}`;
   const FORUM_URL = `/forum`;
@@ -412,7 +412,7 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
 
       if (response.status === HttpStatus.OK) {
         message.success("AI角色创建成功");
-        if (state.userId) {
+        if (state.user.id) {
           message.success("请及时注册保存当前角色");
         }
         console.log("set modelMetadata succeeded", response.data);

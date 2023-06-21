@@ -1,14 +1,18 @@
 import { IMessage } from "../types/IMessage";
 import GenderType from "../types/GenderType"
 import { Model } from "../types/Model";
+import UserRole from "../types/UserRole";
 
-export const pkSystemState = {
+export const pkSystemState: PkSystemState = {
     isFlippedCardOne: false,
     curImageId: 0,
     messageList: [] as IMessage[],
-    userGender: GenderType.UNKNOWN,
-    userId: "unknown",
-    userName: "User",
+    user: {
+        id: "unknown",
+        gender: GenderType.UNKNOWN,
+        userName: "User",
+        role: UserRole.GUEST,  // default guest
+    },
     modelArrays: [] as Model[],
     curModelName: "AI角色",
     curModelSrc: "",
@@ -21,9 +25,12 @@ export type PkSystemState = {
     isFlippedCardOne: boolean | undefined;
     curImageId: number;
     messageList: IMessage[];
-    userGender: GenderType;
-    userId: string;
-    userName: string;
+    user: {
+        id: string,
+        gender: GenderType,
+        userName: string,
+        role: UserRole,
+    }
     modelArrays: Model[];
     curModelName: string;
     curModelSrc: string;

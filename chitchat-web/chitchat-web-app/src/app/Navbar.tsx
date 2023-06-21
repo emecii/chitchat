@@ -202,7 +202,7 @@ const Navbar = () => {
         action.setUserId(randomId); // reset the user id or other related user information
     };
     useEffect(() => {
-    }, [state.modalOpen, state.userId]);
+    }, [state.modalOpen, state.user.id]);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -236,7 +236,7 @@ const Navbar = () => {
                         </If>
                         <If condition={isLoggedIn}>
                             <div className="mobile">
-                                <Button text={`用户${state.userId?.substring(0, 7)}`} disabled={true} />
+                                <Button text={`用户${state.user.id.substring(0, 7)}`} disabled={true} />
                                 <LogoutButton text='退出登录' onClick={() => setLogoutModalVisible(true)} /> {/* New Logout button */}
                             </div>
                         </If>
@@ -262,7 +262,7 @@ const Navbar = () => {
                 </If>
                 <If condition={isLoggedIn}>
                     <div className="desktop">
-                        <Button text={`用户${state.userId?.substring(0, 7)}`} disabled={true} />
+                        <Button text={`用户${state.user.id.substring(0, 7)}`} disabled={true} />
                         <LogoutButton text='退出登录' onClick={() => setLogoutModalVisible(true)} /> {/* New Logout button */}
                     </div>
                 </If>

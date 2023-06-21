@@ -60,7 +60,7 @@ const ChatBox: React.FC<Props> = () => {
     // }
     // if directly access to a chat page, meanwhile the chat is not jumping from mybot
     if (!modelIdLink) {
-      fetchChatHeaderModels(state.userId).then(models => {
+      fetchChatHeaderModels(state.user.id).then(models => {
         if (models.length > 0) {
           // action.handleJoinChat(models[0]);
           navigate('/chat/' + models[0]);
@@ -70,7 +70,7 @@ const ChatBox: React.FC<Props> = () => {
       action.handleJoinChat(modelIdLink);
       setIsLoading(false);
     }
-  }, [modelIdLink, state.userId]);
+  }, [modelIdLink, state.user.id]);
 
   return (
     <>
@@ -87,9 +87,9 @@ const ChatBox: React.FC<Props> = () => {
               "text": mes,
               "id": state.curImageId.toString(),
               "sender": {
-                "name": state.userName,
-                "uid": state.userId,
-                "avatar": state.userGender === GenderType.FAMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
+                "name": state.user.userName,
+                "uid": state.user.id,
+                "avatar": state.user.gender === GenderType.FAMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
               }
             } as IMessage;
 
@@ -100,7 +100,7 @@ const ChatBox: React.FC<Props> = () => {
             axios
               .post(`${ENDPOINT}/api/send-message`,
                 {
-                  "user_id": state.userId,
+                  "user_id": state.user.id,
                   "model_id": state.curModelIdString,
                   "message": mes
                 })

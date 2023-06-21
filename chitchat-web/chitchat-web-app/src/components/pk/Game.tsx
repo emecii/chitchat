@@ -126,12 +126,12 @@ const Game: React.FC<Props> = () => {
   }, [state.curImageId]);
   return (
     <Section id="home">
-      <Title>{state.userGender === GenderType.UNKNOWN ? '请选择您的性别' : '点击卡片试试'}</Title>
+      <Title>{state.user.gender === GenderType.UNKNOWN ? '请选择您的性别' : '点击卡片试试'}</Title>
       <Container>
-        <If condition={state.userGender === GenderType.UNKNOWN}>
+        <If condition={state.user.gender === GenderType.UNKNOWN}>
           <GenderSelector />
         </If>
-        <If condition={state.userGender !== GenderType.UNKNOWN}>
+        <If condition={state.user.gender !== GenderType.UNKNOWN}>
           {models[0] && <ImageCard
             idCardFlipped={state.isFlippedCardOne}
             imgOnClick={action.handleFlipCardOne}

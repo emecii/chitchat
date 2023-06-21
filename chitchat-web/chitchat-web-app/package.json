@@ -51,7 +51,8 @@
     "typewriter-effect": "^2.19.0",
     "util": "^0.12.5",
     "web-vitals": "^2.1.4",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "lodash": "4.17.21"
   },
   "scripts": {
     "start": "react-scripts start",

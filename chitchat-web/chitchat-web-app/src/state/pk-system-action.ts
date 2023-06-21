@@ -10,12 +10,14 @@ import { Model } from "../types/Model";
 import { ENDPOINT } from "../types/Env";
 import { ChatHistoryItem } from "../types/ChatHistoryItem";
 import { initialize, setGAUserId } from "../app/GaEvent";
+import _ from "lodash";
+import UserRole from "../types/UserRole";
 
 var console = require("console-browserify")
 export const pkSystemAction = {
     registerNewUserProfile: (gender: GenderType, userName: string) =>
         async ({ setState, getState }: pkSystemApi) => {
-            let curUserId = getState().userId;
+            let curUserId = getState().user.id;
             console.log("Set GA user id", curUserId);
             initialize();
             setGAUserId(curUserId);
@@ -76,27 +78,41 @@ export const pkSystemAction = {
             },
     setUserName:
         (uName: string) =>
-            ({ setState }: pkSystemApi) => {
+            ({ setState, getState }: pkSystemApi) => {
                 //console.log("set user name: ", uName)
-                setState({ userName: uName });
+                const userNewState = _.cloneDeep(getState().user);
+                userNewState.userName = uName;
+                setState({ user : userNewState });
             },
     setUserId:
         (uId: string) =>
-            ({ setState }: pkSystemApi) => {
+            ({ setState, getState }: pkSystemApi) => {
                 //console.log("set userId: ", uId)
-                setState({ userId: uId });
+                const userNewState = _.cloneDeep(getState().user);
+                userNewState.id = uId;
+                setState({ user : userNewState });
+            },
+    setGender:
+        (uGender: GenderType) =>
+            ({ setState, getState }: pkSystemApi) => {
+                //console.log("set gender: ", gender)
+                const userNewState = _.cloneDeep(getState().user);
+                userNewState.gender = uGender;
+                setState({ user : userNewState });
+            },
+    setUserRole:
+        (uRole: UserRole) =>
+            ({ setState, getState }: pkSystemApi) => {
+                //console.log("set gender: ", gender)
+                const userNewState = _.cloneDeep(getState().user);
+                userNewState.role = uRole;
+                setState({ user : userNewState });
             },
     setIsLoggedIn:
         (isLoggedIn: boolean) =>
             ({ setState }: pkSystemApi) => {
                 //console.log("set isLoggedIn: ", isLoggedIn)
                 setState({ isLoggedIn: isLoggedIn });
-            },
-    setGender:
-        (gender: GenderType) =>
-            ({ setState }: pkSystemApi) => {
-                //console.log("set gender: ", gender)
-                setState({ userGender: gender });
             },
     setModelOpen:
         (isOpen: boolean) =>
@@ -183,7 +199,7 @@ export const pkSystemAction = {
                 await axios
                     .post(`${ENDPOINT}/api/join-chat`,
                         {
-                            "user_id": getState().userId,
+                            "user_id": getState().user.id,
                             "model_id": modelId
                         }
                     )
@@ -205,9 +221,9 @@ export const pkSystemAction = {
                                 "text": chat.message,
                                 "id": mID,
                                 "sender": {
-                                    "name": isUser ? getState().userName : modelName,
+                                    "name": isUser ? getState().user.userName : modelName,
                                     "uid": uID,
-                                    "avatar": isUser ? (getState().userGender === GenderType.FAMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
+                                    "avatar": isUser ? (getState().user.gender === GenderType.FAMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
                                 }
                             } as IMessage;
                             //pkSystemAction.updateMessageList(messageItem);

@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import { ENDPOINT } from '../types/Env';
 import axios, { AxiosError } from "axios";
 import { usePkSystemHook } from '../state/pk-system-hook';
+import UserRole from '../types/UserRole';
 
 interface AuthState {
     isLoggedIn: boolean;
@@ -24,7 +25,7 @@ const useAuth = () => {
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [state, action] = usePkSystemHook();
-    if (state.userId === "unknown") {
+    if (state.user.role === UserRole.GUEST) {
         // get a random user id and set it to the state
         var randomId = Math.random().toString(36).substring(7);
         action.setUserId(randomId);
@@ -47,6 +48,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             action.setUserId(response.data.data.userId);
             action.setGender(response.data.data.gender);
             action.setUserName(response.data.data.userName);
+            action.setUserRole(UserRole.GUEST); // TODO: store role in DB
             
             setIsLoggedIn(true);
             action.setIsLoggedIn(true);

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { message } from 'antd';
 import GenderType from '../../types/GenderType';
 import { usePkSystemHook } from '../../state/pk-system-hook';
+import UserRole from '../../types/UserRole';
 var console = require("console-browserify")
 
 const Container = styled.div`
@@ -92,6 +93,7 @@ const GenderSelector: React.FC = () => {
       action.fetchModelProfile(selectedGender);
       // Regisetr user profile
       action.registerNewUserProfile(selectedGender, nickname);
+      action.setUserRole(UserRole.USER);
     }
   };
 

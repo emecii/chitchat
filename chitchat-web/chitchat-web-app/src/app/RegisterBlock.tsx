@@ -22,6 +22,7 @@ import { HttpStatus } from "../types/HttpStatus";
 import { usePkSystemHook } from "../state/pk-system-hook";
 import { ENDPOINT } from "../types/Env";
 import { useAuth } from "./AuthContext";
+import UserRole from "../types/UserRole";
 
 var console = require("console-browserify");
 
@@ -61,7 +62,7 @@ const RegisterBlock = () => {
   // Handle register form submission
   const handleRegisterSubmit = async (values: any) => {
     const { userName, dob, gender, city, phoneNumber } = values;
-    if (state.userId === "unknown") {
+    if (state.user.role === UserRole.GUEST) {
       // create a random user_id
       var randomId = Math.random().toString(36).substring(7);
       action.setUserId(randomId);
@@ -69,7 +70,7 @@ const RegisterBlock = () => {
 
     await axios
       .post(`${ENDPOINT}/api/user-profile`, {
-        user_id: state.userId,
+        user_id: state.user.id,
         user_name: userName,
         gender: gender,
         birthday: dob,
