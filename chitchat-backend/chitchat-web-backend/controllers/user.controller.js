@@ -31,7 +31,7 @@ export const postUserProfile = async (req, res) => {
   };
   // TODO: from pk no phone number, get user will always return a user who has no phone number
   // We should either ask for phone number on pk or use other fields as DB key
-  const key = phone ? {phone:phone} : {user_name:user_name, gender:gender};
+  const key = phone ? {phone:phone} : {user_id:user_id};
   var existing_user = await getUser(key);
   if (existing_user) {
     res.status(409).json({ error: "User already existed!" });
