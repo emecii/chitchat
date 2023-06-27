@@ -10,6 +10,7 @@ const userProfileSchema = new Schema({
   gender: String,
   city: String,
   birthday: Date,
+  profile_url: String,
   createdAt: {
     type: Date,
     default: Date.now,

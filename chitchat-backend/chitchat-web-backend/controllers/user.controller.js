@@ -1,4 +1,4 @@
-import { getUser, getUserByUserId, insertUser } from "../services/userProfileService.js";
+import { getUser, getUserByUserId, insertUser, upsertUserTags } from "../services/userProfileService.js";
 
 export const getUserProfile = async (req, res) => {
   const user_id = req.params.user_id;
@@ -21,13 +21,15 @@ export const postUserProfile = async (req, res) => {
   const birthday = req.body.birthday;
   const city = req.body.birthday;
   const phone = req.body.phone;
+  const profile_url = req.body.profile_url;
   const user = {
     user_id: user_id,
     user_name: user_name,
     gender: gender,
     birthday: birthday,
     city: city,
-    phone: phone
+    phone: phone,
+    profile_url: profile_url,
   };
   // TODO: from pk no phone number, get user will always return a user who has no phone number
   // We should either ask for phone number on pk or use other fields as DB key
@@ -40,6 +42,19 @@ export const postUserProfile = async (req, res) => {
   try {
     await insertUser(user);
     res.json({ message: `user ${user_name} added!`, status: "success" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const postUserTags = async (req, res) => {
+  const user_tags = req.body.user_tags;
+  const user_mbti_tag = req.body.user_mbti_tag;
+  const user_id = req.body.user_id;
+
+  try {
+    await upsertUserTags(user_id, user_tags, user_mbti_tag);
+    res.json({ message: `user ${user_id} tags upserted!`, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
