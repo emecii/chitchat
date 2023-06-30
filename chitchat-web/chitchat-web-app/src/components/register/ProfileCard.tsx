@@ -90,6 +90,13 @@ const ProfileCard: React.FC<Props> = ({ isAllowSkip, isAllowChanged, headline, c
     setIsModalVisible(false);
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
   return (
     <ProfileCardWrapper>
       <NavigationWrapper>
@@ -120,6 +127,7 @@ const ProfileCard: React.FC<Props> = ({ isAllowSkip, isAllowChanged, headline, c
               onNext();
               onSubmit();
               handleModalOpen();
+              scrollToTop();
             }}
         />
       </NextButtonWrapper>
