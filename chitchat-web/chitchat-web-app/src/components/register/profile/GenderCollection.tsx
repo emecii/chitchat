@@ -1,4 +1,5 @@
 import React from 'react';
+import { Radio } from 'antd';
 
 interface GenderCollectionProps {
   selectedOption?: string | undefined;
@@ -11,41 +12,14 @@ const GenderCollection: React.FC<GenderCollectionProps> = ({
 }) => {
   return (
     <div>
-      <div style={{ display: 'flex' }}>
-        <div style={{ marginRight: '10px' }}>
-          <label>
-            <input
-              type="radio"
-              value="Male"
-              checked={selectedOption === "Male"}
-              onChange={() => onSelectOption("Male")}
-            />
-            Male
-          </label>
-        </div>
-        <div style={{ marginRight: '10px' }}>
-          <label>
-            <input
-              type="radio"
-              value="Female"
-              checked={selectedOption === "Female"}
-              onChange={() => onSelectOption("Female")}
-            />
-            Female
-          </label>
-        </div>
-        <div>
-          <label>
-            <input
-              type="radio"
-              value="Unknown"
-              checked={selectedOption === "Unknown"}
-              onChange={() => onSelectOption("Unknown")}
-            />
-            Unknown
-          </label>
-        </div>
-      </div>
+      <Radio.Group
+        value={selectedOption}
+        onChange={(e) => onSelectOption(e.target.value)}
+      >
+        <Radio value="Male">Male</Radio>
+        <Radio value="Female">Female</Radio>
+        <Radio value="Unknown">Unknown</Radio>
+      </Radio.Group>
     </div>
   );
 };
