@@ -335,6 +335,101 @@ paths:
                 properties:
                   error:
                     type: string
+  /user-tags:
+    post:
+      summary: Create a new user tags profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                user_name:
+                  type: string
+                gender:
+                  type: string
+                birthday:
+                  type: string
+                city:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        200:
+          description: The user tags were successfully upserted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /update-user-profile:
+    post:
+      summary: Update an existing user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                user_name:
+                  type: string
+                gender:
+                  type: string
+                birthday:
+                  type: string
+                city:
+                  type: string
+                phone:
+                  type: string
+      responses:
+        200:
+          description: The user profile was successfully created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  status:
+                    type: string
+        400:
+          description: User Id does not exist
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        500:
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    error:
+                      type: string
   /model-profile:
     put:
       summary: Update an existing model profile

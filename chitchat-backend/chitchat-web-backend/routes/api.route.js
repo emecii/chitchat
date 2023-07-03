@@ -2,7 +2,7 @@ import { Router } from "express";
 import { upload_image } from "../controllers/image.controller.js";
 import { get_wechat_config } from "../controllers/wechat.controller.js";
 import { sendMessage, joinChat } from "../controllers/chat.controller.js";
-import { getUserProfile, postUserProfile, postUserTags } from "../controllers/user.controller.js";
+import { getUserProfile, postUserProfile, postUserTags, updateUserProfile } from "../controllers/user.controller.js";
 import {
   getModelProfile,
   postModelProfile,
@@ -390,9 +390,67 @@ router.get("/user-profile/:user_id", getUserProfile);
 router.post("/user-profile", postUserProfile);
 /**
  * @swagger
+ * /update-user-profile:
+ *   post:
+ *     summary: Update an existing user profile
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: string
+ *               user_name:
+ *                 type: string
+ *               gender:
+ *                 type: string
+ *               birthday:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               phone:
+ *                 type: string
+ *               profile_url:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: The user profile was successfully updated
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 status:
+ *                   type: string
+ *       400:
+ *         description: User Id does not exist
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ */
+router.post("/update-user-profile", updateUserProfile);
+/**
+ * @swagger
  * /user-tags:
  *   post:
- *     summary: Create a new user profile
+ *     summary: Create a new user tags profile
  *     requestBody:
  *       required: true
  *       content:

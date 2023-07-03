@@ -1,9 +1,15 @@
 import { UserModel } from "../models/user-profile.js";
 import { UserTagsModel } from "../models/user-tags.js";
 
+// todo rename this and userModel to user profile
 export async function insertUser(user) {
     return await UserModel.create(user);
 }
+
+export async function updateUser(user) {
+    return await UserModel.findOneAndUpdate({ user_id: user.user_id }, { $set: user });
+  }
+  
 export async function getUserByUserId(user_id) {
     return await UserModel.findOne({user_id: user_id});
 }
