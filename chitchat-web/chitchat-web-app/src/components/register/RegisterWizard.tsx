@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import ProfileCard from './ProfileCard';
-import MBTISurveyComponent from './mbti/MBTISurveyComponent';
-import MBTIComponent from './mbti/MBTIComponent';
-import UserTagSelection from './userTag/UserTagSelection';
-import AvatarSelection from './avatar/AvatarSelction';
-import GenericCollection from './profile/GenericCollection';
-import GenderCollection from './profile/GenderCollection';
-import { usePkSystemHook } from '../../state/pk-system-hook';
-import GenderType from '../../types/GenderType';
-import axios from 'axios';
-import { ENDPOINT } from '../../types/Env';
-import { message } from 'antd';
-import { HttpStatus } from '../../types/HttpStatus';
+import React, { useState } from "react";
+import ProfileCard from "./ProfileCard";
+import MBTISurveyComponent from "./mbti/MBTISurveyComponent";
+import MBTIComponent from "./mbti/MBTIComponent";
+import UserTagSelection from "./userTag/UserTagSelection";
+import AvatarSelection from "./avatar/AvatarSelction";
+import GenericCollection from "./profile/GenericCollection";
+import GenderCollection from "./profile/GenderCollection";
+import { usePkSystemHook } from "../../state/pk-system-hook";
+import GenderType from "../../types/GenderType";
+import axios from "axios";
+import { ENDPOINT } from "../../types/Env";
+import { List, message, Modal } from "antd";
+import { HttpStatus } from "../../types/HttpStatus";
+import { validateUserProfile } from "../../util/validate";
 
 interface MBTISurveyComponentProps {
   onMBTITypeChange: (value: string) => void;
@@ -26,7 +27,7 @@ interface MBTIComponentWrapperProps {
 const MBTIComponentWrapper: React.FC<MBTIComponentWrapperProps> = ({
   question,
   options,
-  onOptionSelect
+  onOptionSelect,
 }) => {
   const [selectedOption, setSelectedOption] = useState(0);
 
@@ -48,6 +49,8 @@ const MBTIComponentWrapper: React.FC<MBTIComponentWrapperProps> = ({
 
 const RegisterWizard: React.FC = () => {
   const [state, action] = usePkSystemHook();
+  const [errors, setErrors] = useState<string[]>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [nickname, setNickname] = useState("");
   const [dob, setDOB] = useState(new Date());
   const [gender, setGender] = useState(GenderType.UNKNOWN);
@@ -59,12 +62,17 @@ const RegisterWizard: React.FC = () => {
   // TODO: post the selectedTags to backend
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const questionsScores = [1, 2, 4, 8];
-  const mbtiQuestions = ["和一群人party一天后", "晚上看完抽象艺术展回家", "刷到乞讨老人的视频", "当接到一项工作/任务时"];
+  const mbtiQuestions = [
+    "和一群人party一天后",
+    "晚上看完抽象艺术展回家",
+    "刷到乞讨老人的视频",
+    "当接到一项工作/任务时",
+  ];
   const mbtiOptions = [
     ["救命！急需独处回血！", "明天咱还能聚一回吗"],
     ["满脑子想法乱窜到后半夜", "呀！困了...睡"],
     ["从他怎么了联想到天下苍生", "世界就是这样默默滑过"],
-    ["马上开始行动计划", "卧敲！明天要交？"]
+    ["马上开始行动计划", "卧敲！明天要交？"],
   ];
   const handleNicknameChange = (nickname: string) => {
     setNickname(nickname);
@@ -85,13 +93,13 @@ const RegisterWizard: React.FC = () => {
   // TODO: store the mbtiScore in state and post to backend
   // TODO: if user select MBTI type, transform into a score
   const mbtiScore = selectedOptions.reduce((accumulator, current, index) => {
-    return accumulator + (current * questionsScores[index]);
+    return accumulator + current * questionsScores[index];
   }, 0);
 
   const handleTagsChange = (tags: string[]) => {
     setSelectedTags(tags);
   };
-  
+
   const handleOptionClick = (questionIndex: number, option: number) => {
     const newSelectedOptions = [...selectedOptions];
     newSelectedOptions[questionIndex] = option;
@@ -101,7 +109,7 @@ const RegisterWizard: React.FC = () => {
   const nextXSteps = (x: number) => {
     setCurrentStep(currentStep + x);
   };
-  
+
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
   };
@@ -114,90 +122,185 @@ const RegisterWizard: React.FC = () => {
     setCurrentStep(currentStep - x);
   };
 
-  const emptySubmit = () => {
-
-  }
+  const emptySubmit = () => {};
 
   const nickNameSubmit = () => {
     nickname && action.setProfileNickname(nickname);
-  }
+  };
 
   const birthdaySubmit = () => {
     dob && action.setProfileBirthday(dob);
-  }
+  };
 
   const genderSubmit = () => {
     gender && action.setProfileGender(gender);
-  }
+  };
 
   const phoneNumberSubmit = () => {
     phoneNumber && action.setProfilePhoneNumber(phoneNumber);
-  }
+  };
 
   const avatarUrlSubmit = () => {
     avatarUrl && action.setProfileAvatar(avatarUrl);
-  }
+  };
 
   const mbtiSubmit = () => {
     mbtiScore && action.setProfileMbtiScore(mbtiScore);
-  }
+  };
 
   const selectedTagsSubmit = () => {
     selectedTags && action.setProfileSelectedTags(selectedTags);
-  }
+  };
 
   const profileSubmit = async () => {
     console.log("submitting profile", state.user.profile);
-    
-    await axios
-    .post(`${ENDPOINT}/api/user-profile`, {
+    // TODO: add the mbti and user tags as well
+    const userProfile = {
       user_id: state.user.id,
       user_name: state.user.profile.nickname,
       gender: state.user.profile.gender,
       birthday: state.user.profile.birthday,
-      city: state.user.profile.birthday, //???
       phone: state.user.profile.phoneNumber,
       profile_url: state.user.profile.avatar,
-    })
-    .then((response) => {
-      if (response.status === HttpStatus.OK) {
-        console.log("fetchModelProfile message", response.data.message);
-        message.info("注册成功!");
-      } else {
-        message.error("页面错误，请稍后重试或添加下方微信群联系管理员。");
-      }
-    })
-    .catch((err) => {
-      if (err.response && err.response.status === 409) {
-        // handle conflict error here
-        message.error("用户已存在,请稍后重试或添加下方微信群联系管理员。");
-      } else {
-        console.error(err);
-      }
-    });
+    };
 
+    const validationErrors = await validateUserProfile(userProfile);
+    if (Object.keys(validationErrors).length > 0) {
+      // TODO: show error message on front end and ask User to input again.
+      console.log("validationErrors", validationErrors);
+      setErrors(Object.values(validationErrors));
+      setIsModalVisible(true); // Show the modal
+      return;
+    }
     await axios
-    .post(`${ENDPOINT}/api/upsert-user-tags`, {
+      .post(`${ENDPOINT}/api/user-profile`, {
+        user_id: state.user.id,
+        user_name: state.user.profile.nickname,
+        gender: state.user.profile.gender,
+        birthday: state.user.profile.birthday,
+        // city: state.user.profile.birthday, //TODO: add back city if needed
+        phone: state.user.profile.phoneNumber,
+        profile_url: state.user.profile.avatar,
+      })
+      .then((response) => {
+        if (response.status === HttpStatus.OK) {
+          console.log("fetchModelProfile message", response.data.message);
+          message.info("注册成功!");
+        } else {
+          message.error("页面错误，请稍后重试或添加下方微信群联系管理员。");
+        }
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 409) {
+          // handle conflict error here
+          message.error("用户已存在,请稍后重试或添加下方微信群联系管理员。");
+        } else {
+          console.error(err);
+        }
+      });
+
+    await axios.post(`${ENDPOINT}/api/upsert-user-tags`, {
       user_id: state.user.id,
       user_tags: selectedTags,
       user_mbti_tag: mbtiType,
-    })
-  }
+    });
+  };
 
   return (
     <div>
-      {currentStep === 0 && <ProfileCard headline="昵称" progressBarPercent={8} onNext={nextStep} onSubmit={nickNameSubmit} onPrevious={prevStep} isAllowGoBack={false}><GenericCollection inputType='text' value={nickname} onInputChange={handleNicknameChange} /></ProfileCard>}
-      {currentStep === 1 && <ProfileCard headline="生日" progressBarPercent={16} onNext={nextStep} onSubmit={birthdaySubmit} onPrevious={prevStep}><GenericCollection inputType='date' value={dob} onInputChange={handleDOBChange} /></ProfileCard>}
-      {currentStep === 2 && <ProfileCard headline="性别" progressBarPercent={24} onNext={nextStep} onSubmit={genderSubmit} onPrevious={prevStep}><GenderCollection selectedOption={gender} onSelectOption={handleGenderChange} /></ProfileCard>}
-      {currentStep === 3 && <ProfileCard headline="手机号" progressBarPercent={30} onNext={nextStep} onSubmit={phoneNumberSubmit} onPrevious={prevStep}><GenericCollection value={phoneNumber} inputType='text' onInputChange={handlePhoneNumberChange} /></ProfileCard>}
-      {currentStep === 4 && <ProfileCard headline="选头像" progressBarPercent={35} onNext={nextStep} onSubmit={avatarUrlSubmit} onPrevious={prevStep}><AvatarSelection selectedAvatar={avatarUrl} onSelectAvatar={handleAvatarUrlChange} /></ProfileCard>}
-      {currentStep === 5 && <ProfileCard headline="MBTI 小调查" progressBarPercent={40} onNext={() => {
-        if (mbtiType === "IDK") {
-          nextStep();
-        } else {
-          nextXSteps(5);
-        }
-      }} onSubmit={mbtiSubmit} onPrevious={prevStep}><MBTISurveyComponent onMBTITypeChange={setMBTIType} ></MBTISurveyComponent></ProfileCard>}
+      {currentStep === 0 && (
+        <ProfileCard
+          headline="昵称"
+          progressBarPercent={8}
+          onNext={nextStep}
+          onSubmit={nickNameSubmit}
+          onPrevious={prevStep}
+          isAllowGoBack={false}
+        >
+          <GenericCollection
+            inputType="text"
+            value={nickname}
+            onInputChange={handleNicknameChange}
+          />
+        </ProfileCard>
+      )}
+      {currentStep === 1 && (
+        <ProfileCard
+          headline="生日"
+          progressBarPercent={16}
+          onNext={nextStep}
+          onSubmit={birthdaySubmit}
+          onPrevious={prevStep}
+        >
+          <GenericCollection
+            inputType="date"
+            value={dob}
+            onInputChange={handleDOBChange}
+          />
+        </ProfileCard>
+      )}
+      {currentStep === 2 && (
+        <ProfileCard
+          headline="性别"
+          progressBarPercent={24}
+          onNext={nextStep}
+          onSubmit={genderSubmit}
+          onPrevious={prevStep}
+        >
+          <GenderCollection
+            selectedOption={gender}
+            onSelectOption={handleGenderChange}
+          />
+        </ProfileCard>
+      )}
+      {currentStep === 3 && (
+        <ProfileCard
+          headline="手机号"
+          progressBarPercent={30}
+          onNext={nextStep}
+          onSubmit={phoneNumberSubmit}
+          onPrevious={prevStep}
+        >
+          <GenericCollection
+            value={phoneNumber}
+            inputType="text"
+            onInputChange={handlePhoneNumberChange}
+          />
+        </ProfileCard>
+      )}
+      {currentStep === 4 && (
+        <ProfileCard
+          headline="选头像"
+          progressBarPercent={35}
+          onNext={nextStep}
+          onSubmit={avatarUrlSubmit}
+          onPrevious={prevStep}
+        >
+          <AvatarSelection
+            selectedAvatar={avatarUrl}
+            onSelectAvatar={handleAvatarUrlChange}
+          />
+        </ProfileCard>
+      )}
+      {currentStep === 5 && (
+        <ProfileCard
+          headline="MBTI 小调查"
+          progressBarPercent={40}
+          onNext={() => {
+            if (mbtiType === "IDK") {
+              nextStep();
+            } else {
+              nextXSteps(5);
+            }
+          }}
+          onSubmit={mbtiSubmit}
+          onPrevious={prevStep}
+        >
+          <MBTISurveyComponent
+            onMBTITypeChange={setMBTIType}
+          ></MBTISurveyComponent>
+        </ProfileCard>
+      )}
       {currentStep >= 6 && currentStep <= 9 && (
         <ProfileCard
           headline="MBTI 小调查"
@@ -213,16 +316,48 @@ const RegisterWizard: React.FC = () => {
           />
         </ProfileCard>
       )}
-      {currentStep === 10 && <ProfileCard headline="请选择最符合你的几项" progressBarPercent={85} onNext={nextStep} onSubmit={selectedTagsSubmit} onPrevious={() => {
-        if (mbtiType === "IDK") {
-          prevStep();
-        } else {
-          prevXStep(5);
-        }
-      }}><UserTagSelection onTagsChange={handleTagsChange} /></ProfileCard>}
-      {currentStep === 11 && <ProfileCard headline="开始探索" progressBarPercent={100} onNext={() => { }} onSubmit={profileSubmit} onPrevious={prevStep} >这里可以放一些具体的instructions</ProfileCard>}
+      {currentStep === 10 && (
+        <ProfileCard
+          headline="请选择最符合你的几项"
+          progressBarPercent={85}
+          onNext={nextStep}
+          onSubmit={selectedTagsSubmit}
+          onPrevious={() => {
+            if (mbtiType === "IDK") {
+              prevStep();
+            } else {
+              prevXStep(5);
+            }
+          }}
+        >
+          <UserTagSelection onTagsChange={handleTagsChange} />
+        </ProfileCard>
+      )}
+      {currentStep === 11 && (
+        <ProfileCard
+          headline="开始探索"
+          progressBarPercent={100}
+          onNext={() => {}}
+          onSubmit={profileSubmit}
+          onPrevious={prevStep}
+        >
+          这里可以放一些具体的instructions
+        </ProfileCard>
+      )}
+      <Modal
+        title="请回到上几步修改以下必填信息"
+        visible={isModalVisible}
+        onOk={() => setIsModalVisible(false)}
+        onCancel={() => setIsModalVisible(false)}
+      >
+        <List
+          bordered
+          dataSource={errors}
+          renderItem={(error) => <List.Item>{error}</List.Item>}
+        />
+      </Modal>
     </div>
   );
-}
+};
 
 export default RegisterWizard;

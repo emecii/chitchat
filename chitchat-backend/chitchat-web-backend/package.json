@@ -35,7 +35,8 @@
     "redis": "^4.6.7",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^4.6.3",
-    "tencentcloud-sdk-nodejs": "^4.0.586"
+    "tencentcloud-sdk-nodejs": "^4.0.586",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^4.3.7",

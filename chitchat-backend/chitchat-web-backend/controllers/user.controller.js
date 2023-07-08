@@ -1,5 +1,5 @@
 import { getUser, getUserByUserId, insertUser, updateUser, upsertUserTags as mongoUpsertUserTags } from "../services/userProfileService.js";
-
+import { validateUserProfile } from "../utils/validate.util.js";
 export const getUserProfile = async (req, res) => {
   const user_id = req.params.user_id;
   var user = await getUserByUserId(user_id);
@@ -31,6 +31,13 @@ export const postUserProfile = async (req, res) => {
     phone: phone,
     profile_url: profile_url,
   };
+  const validationErrors = await validateUserProfile(user);
+  console.log(validationErrors);
+  if (Object.keys(validationErrors).length > 0) {
+    res.status(400).json(validationErrors);
+    return;
+  }
+  // TODO: remove the following code since phone number and id is required
   // TODO: from pk no phone number, get user will always return a user who has no phone number
   // We should either ask for phone number on pk or use other fields as DB key
   const key = phone ? {phone:phone} : {user_id:user_id};
