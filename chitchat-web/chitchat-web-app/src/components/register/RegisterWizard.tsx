@@ -178,6 +178,7 @@ const RegisterWizard: React.FC = () => {
         user_name: state.user.profile.username,
         gender: state.user.profile.gender,
         birthday: state.user.profile.birthday,
+        // city: state.user.profile.birthday, //TODO: add back city if needed
         phone: state.user.profile.phoneNumber,
         profile_url: state.user.profile.avatar,
       })

@@ -6,6 +6,7 @@ interface UserProfile {
     user_name: string;
     gender: GenderType;
     birthday: Date | string; // string in case the date is not yet a Date object
+    // city: string;
     phone: string;
     profile_url: string;
 }
@@ -17,6 +18,7 @@ const userProfileSchema = object().shape({
     user_name: string().required('昵称必须填写哦'),
     gender: string().oneOf(Object.values(GenderType)).required('性别必须填写哦'),
     birthday: date().required('生日必须填写哦'),
+    // city: string().required('City is required'),
     phone: string().required('手机号必须填写哦，用于接收验证码。'),
     profile_url: string().url('Invalid URL').required('头像必须选择哦'),
 });
