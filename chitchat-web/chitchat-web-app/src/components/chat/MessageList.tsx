@@ -7,13 +7,13 @@ import { IMessage } from '../../types/IMessage';
 import { MessageListDetail } from './MessageListDetail';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { useParams } from 'react-router-dom';
-import { LoginUser } from '../../state/pk-system-state';
+import { AppUser } from '../../state/pk-system-state';
 
 interface Props {
     isBotTyping: boolean;
     isLoading: boolean;
     messages: IMessage[];
-    user: LoginUser;
+    user: AppUser;
     pageRef: React.Ref<HTMLDivElement>
     //renderMessage?: RenderMessageFunction;
 }

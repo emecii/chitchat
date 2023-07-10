@@ -9,7 +9,7 @@ import GenderType from '../../types/GenderType';
 import ChatHeader from './ChatHeader';
 import { logSendMessageEvent } from '../../app/GaEvent';
 import { useNavigate } from "react-router-dom";
-import { LoginUser } from '../../state/pk-system-state';
+import { AppUser } from '../../state/pk-system-state';
 
 
 interface Props {
@@ -18,10 +18,12 @@ interface Props {
 
 const MockUser1 =
   {
-    name: "Jackfdweo2134183",
-    avatar: "",
-    uid: "01",
-  } as LoginUser
+    id: "01",
+    profile: {
+      username: "Jackfdweo2134183",
+      avatar: "",
+    }
+  } as AppUser
 
 var console = require("console-browserify")
 
@@ -84,12 +86,14 @@ const ChatBox: React.FC<Props> = () => {
         onSubmit={
           (mes: string) => {
             const newUserMessage = {
-              "text": mes,
-              "id": state.curImageId.toString(),
-              "sender": {
-                "name": state.user.profile.username,
-                "uid": state.user.id,
-                "avatar": state.user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
+              text: mes,
+              id: state.curImageId.toString(),
+              sender: {
+                id: state.user.id,
+                profile: {
+                  username: state.user.profile.username,
+                  avatar: state.user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
+                }
               }
             } as IMessage;
 
@@ -110,12 +114,14 @@ const ChatBox: React.FC<Props> = () => {
                 const mID: string = response.data.model_id;
                 const receivedMessage =
                   {
-                    "text": message,
-                    "id": mID,
-                    "sender": {
-                      "name": state.curModelName,
-                      "uid": uID,
-                      "avatar": state.curModelSrc,
+                    text: message,
+                    id: mID,
+                    sender: {
+                      id: uID,
+                      profile: {
+                        username: state.curModelName,
+                        avatar: state.curModelSrc
+                      }
                     }
                   } as IMessage;
 

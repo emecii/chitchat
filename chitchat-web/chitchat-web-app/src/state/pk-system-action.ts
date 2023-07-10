@@ -218,12 +218,14 @@ export const pkSystemAction = {
                         chatHistory.map(chat => {
                             const isUser: boolean = chat.is_user;
                             const messageItem = {
-                                "text": chat.message,
-                                "id": mID,
-                                "sender": {
-                                    "name": isUser ? getState().user.profile.username : modelName,
-                                    "uid": uID,
-                                    "avatar": isUser ? (getState().user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
+                                text: chat.message,
+                                id: mID,
+                                sender: {
+                                    id: uID,
+                                    profile: {
+                                        username: isUser ? getState().user.profile.username : modelName,
+                                        avatar: isUser ? (getState().user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
+                                    }
                                 }
                             } as IMessage;
                             //pkSystemAction.updateMessageList(messageItem);
@@ -235,12 +237,14 @@ export const pkSystemAction = {
                         if (message) {
                             const initialMessage =
                                 {
-                                    "text": message,
-                                    "id": mID,
-                                    "sender": {
-                                        "name": modelName,
-                                        "uid": uID,
-                                        "avatar": modelSrc,
+                                    text: message,
+                                    id: mID,
+                                    sender: {
+                                        profile: {
+                                            username: modelName, 
+                                            avatar: modelSrc
+                                        },
+                                        id: uID,
                                     }
                                 } as IMessage;
                             //pkSystemAction.updateMessageList(initialMessage);

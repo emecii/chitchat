@@ -7,13 +7,13 @@ import './style.css';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { If } from '../../app/If';
 import sendIcon from '../../assets/send-icon.svg';
-import { LoginUser } from '../../state/pk-system-state';
+import { AppUser } from '../../state/pk-system-state';
 
 interface Props {
   messages: IMessage[];
   isLoading: boolean;
   isBotTyping: boolean;
-  user: LoginUser;
+  user: AppUser;
   onSubmit: (mes: string) => void;
   pageRef: React.Ref<HTMLDivElement>
 }

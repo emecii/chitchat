@@ -32,7 +32,7 @@ export type PkSystemState = {
     isFlippedCardOne: boolean | undefined;
     curImageId: number;
     messageList: IMessage[];
-    user: LoginUser;
+    user: AppUser;
     modelArrays: Model[];
     curModelName: string;
     curModelSrc: string;
@@ -51,7 +51,7 @@ export type Profile = {
     selectedTags: string[],
 }
 
-export type LoginUser = {
+export type AppUser = {
     id: string,
     role: UserRole,
     profile: Profile

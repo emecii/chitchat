@@ -7,7 +7,6 @@ import { ENDPOINT } from '../../types/Env';
 import GenderType from '../../types/GenderType';
 import { HttpStatus } from '../../types/HttpStatus';
 import { ModelAvatar } from '../../types/ModelAvatar';
-import { User } from '../../types/User';
 import { fetchModelSrcsByModelIds } from '../../util/fetchModelByModelIds';
 import { useRedirectToNewPage } from '../../util/redirectToNewPage';
 import { useParams } from 'react-router-dom';
