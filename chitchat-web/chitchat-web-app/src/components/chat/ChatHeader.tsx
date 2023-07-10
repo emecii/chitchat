@@ -63,7 +63,7 @@ const ChatHeader: React.FC = () => {
     useEffect(() => {
         const fetchChatHeaderData = async () => {
             // By default, we fetch all the public models.
-            console.log("ChatHeader - user name", state.user.userName);
+            console.log("ChatHeader - user name", state.user.profile.username);
             // if (state.curUserName === "User") {
             //     await action.fetchUserProfile(GenderType.UNKNOWN, "未命名");
             // }
@@ -101,7 +101,7 @@ const ChatHeader: React.FC = () => {
 
         };
         fetchChatHeaderData();
-    }, [modelIdLink, state.user.id, state.user.userName]);
+    }, [modelIdLink, state.user.id, state.user.profile.username]);
     return (
         <ChatHeaderWrapper>
             {[...avatarList, PlusOneIcon].map((model, index) => (

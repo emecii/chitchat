@@ -9,7 +9,7 @@ const ProfileUpdatePageWrapper = styled.div`
 `;
 
 const ProfileUpdate = ({ user_id, profile }: { user_id: string, profile: Profile }) => {
-  const { birthday, phoneNumber, nickname, gender } = profile;
+  const { birthday, phoneNumber, username, gender } = profile;
 
   return (
     <>
@@ -19,7 +19,7 @@ const ProfileUpdate = ({ user_id, profile }: { user_id: string, profile: Profile
           user_id={user_id}
           birthday={birthday}
           phoneNumber={phoneNumber}
-          nickname={nickname}
+          username={username}
           gender={gender}
         />
         <Footer />

@@ -51,7 +51,7 @@ const RegisterWizard: React.FC = () => {
   const [state, action] = usePkSystemHook();
   const [errors, setErrors] = useState<string[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [nickname, setNickname] = useState("");
+  const [username, setUsername] = useState("");
   const [dob, setDOB] = useState(new Date());
   const [gender, setGender] = useState(GenderType.UNKNOWN);
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -74,8 +74,8 @@ const RegisterWizard: React.FC = () => {
     ["从他怎么了联想到天下苍生", "世界就是这样默默滑过"],
     ["马上开始行动计划", "卧敲！明天要交？"],
   ];
-  const handleNicknameChange = (nickname: string) => {
-    setNickname(nickname);
+  const handleUsernameChange = (username: string) => {
+    setUsername(username);
   };
   const handleDOBChange = (dob: Date) => {
     setDOB(dob);
@@ -124,8 +124,8 @@ const RegisterWizard: React.FC = () => {
 
   const emptySubmit = () => {};
 
-  const nickNameSubmit = () => {
-    nickname && action.setProfileNickname(nickname);
+  const usernameSubmit = () => {
+    username && action.setProfileNickname(username);
   };
 
   const birthdaySubmit = () => {
@@ -157,7 +157,7 @@ const RegisterWizard: React.FC = () => {
     // TODO: add the mbti and user tags as well
     const userProfile = {
       user_id: state.user.id,
-      user_name: state.user.profile.nickname,
+      user_name: state.user.profile.username,
       gender: state.user.profile.gender,
       birthday: state.user.profile.birthday,
       phone: state.user.profile.phoneNumber,
@@ -175,10 +175,9 @@ const RegisterWizard: React.FC = () => {
     await axios
       .post(`${ENDPOINT}/api/user-profile`, {
         user_id: state.user.id,
-        user_name: state.user.profile.nickname,
+        user_name: state.user.profile.username,
         gender: state.user.profile.gender,
         birthday: state.user.profile.birthday,
-        // city: state.user.profile.birthday, //TODO: add back city if needed
         phone: state.user.profile.phoneNumber,
         profile_url: state.user.profile.avatar,
       })
@@ -213,14 +212,14 @@ const RegisterWizard: React.FC = () => {
           headline="昵称"
           progressBarPercent={8}
           onNext={nextStep}
-          onSubmit={nickNameSubmit}
+          onSubmit={usernameSubmit}
           onPrevious={prevStep}
           isAllowGoBack={false}
         >
           <GenericCollection
             inputType="text"
-            value={nickname}
-            onInputChange={handleNicknameChange}
+            value={username}
+            onInputChange={handleUsernameChange}
           />
         </ProfileCard>
       )}

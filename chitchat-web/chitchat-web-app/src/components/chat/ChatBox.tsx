@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { IMessage } from '../../types/IMessage';
-import { User } from '../../types/User';
 import { Chat } from './Chat';
 import axios from 'axios';
 import { ENDPOINT } from '../../types/Env';
@@ -10,6 +9,7 @@ import GenderType from '../../types/GenderType';
 import ChatHeader from './ChatHeader';
 import { logSendMessageEvent } from '../../app/GaEvent';
 import { useNavigate } from "react-router-dom";
+import { LoginUser } from '../../state/pk-system-state';
 
 
 interface Props {
@@ -21,7 +21,7 @@ const MockUser1 =
     name: "Jackfdweo2134183",
     avatar: "",
     uid: "01",
-  } as User
+  } as LoginUser
 
 var console = require("console-browserify")
 
@@ -87,9 +87,9 @@ const ChatBox: React.FC<Props> = () => {
               "text": mes,
               "id": state.curImageId.toString(),
               "sender": {
-                "name": state.user.userName,
+                "name": state.user.profile.username,
                 "uid": state.user.id,
-                "avatar": state.user.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
+                "avatar": state.user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg",
               }
             } as IMessage;
 

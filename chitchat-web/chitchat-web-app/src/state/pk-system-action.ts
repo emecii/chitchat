@@ -81,7 +81,7 @@ export const pkSystemAction = {
             ({ setState, getState }: pkSystemApi) => {
                 //console.log("set user name: ", uName)
                 const userNewState = _.cloneDeep(getState().user);
-                userNewState.userName = uName;
+                userNewState.profile.username = uName;
                 setState({ user: userNewState });
             },
     setUserId:
@@ -97,7 +97,7 @@ export const pkSystemAction = {
             ({ setState, getState }: pkSystemApi) => {
                 //console.log("set gender: ", gender)
                 const userNewState = _.cloneDeep(getState().user);
-                userNewState.gender = uGender;
+                userNewState.profile.gender = uGender;
                 setState({ user: userNewState });
             },
     setUserRole:
@@ -221,9 +221,9 @@ export const pkSystemAction = {
                                 "text": chat.message,
                                 "id": mID,
                                 "sender": {
-                                    "name": isUser ? getState().user.userName : modelName,
+                                    "name": isUser ? getState().user.profile.username : modelName,
                                     "uid": uID,
-                                    "avatar": isUser ? (getState().user.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
+                                    "avatar": isUser ? (getState().user.profile.gender === GenderType.FEMALE ? "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4576.jpg" : "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4577.jpg") : modelSrc,
                                 }
                             } as IMessage;
                             //pkSystemAction.updateMessageList(messageItem);
@@ -253,10 +253,10 @@ export const pkSystemAction = {
             },
     // [Chitchat-V2] Set Profile Info Starts
     setProfileNickname:
-        (nickname: string) =>
+        (username: string) =>
             ({ setState, getState }: pkSystemApi) => {
                 const userNewState = _.cloneDeep(getState().user);
-                userNewState.profile.nickname = nickname;
+                userNewState.profile.username = username;
                 setState({ user: userNewState });
             },
     setProfileBirthday:

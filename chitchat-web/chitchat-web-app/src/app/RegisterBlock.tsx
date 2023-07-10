@@ -62,7 +62,7 @@ const RegisterBlock = () => {
 
   // Handle register form submission
   const handleRegisterSubmit = async (values: any) => {
-    const { userName, dob, gender, city, phoneNumber } = values;
+    const { userName, dob, gender, phoneNumber } = values;
     if (state.user.role === UserRole.GUEST) {
       // create a random user_id
       var randomId = Math.random().toString(36).substring(7);
@@ -75,7 +75,6 @@ const RegisterBlock = () => {
         user_name: userName,
         gender: gender,
         birthday: dob,
-        city: city,
         phone: phoneNumber,
       })
       .then((response) => {

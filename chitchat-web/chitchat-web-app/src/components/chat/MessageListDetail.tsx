@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { IMessage } from '../../types/IMessage';
-import { User } from '../../types/User';
 import "./style.css"
+import { LoginUser } from '../../state/pk-system-state';
 
 interface Props {
-  messages: { text: string; id: string; sender: User }[];
-  user: User;
+  messages: { text: string; id: string; sender: LoginUser }[];
+  user: LoginUser;
   isBotTyping: boolean;
   pageRef: React.Ref<HTMLDivElement>
 }
-const isUser = (user: User, message: IMessage) => {
-  return user.uid === message.sender.uid;
+const isUser = (user: LoginUser, message: IMessage) => {
+  return user.id === message.sender.id;
 }
 
 const getRenderName = (isUser: boolean, message: IMessage) => {

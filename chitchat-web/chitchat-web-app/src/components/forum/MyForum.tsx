@@ -179,7 +179,6 @@ const enToCnMap: { [key: string]: string } = {
   "greetings": "口头禅",
   "hometown": "家乡",
   "relationship": "和我的关系",
-  "city": "所在城市",
   "dislike": "讨厌的事物",
   "goodwill": "好感度",
   "moralSense": "道德感",

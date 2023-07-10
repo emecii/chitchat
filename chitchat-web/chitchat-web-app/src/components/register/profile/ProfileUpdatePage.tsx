@@ -15,7 +15,7 @@ const FormItem = styled.div`
 
 interface ProfileUpdateProps {
   user_id: string;
-  nickname: string;
+  username: string;
   birthday: Date;
   gender: GenderType;
   phoneNumber: string;
@@ -23,15 +23,16 @@ interface ProfileUpdateProps {
 
 const ProfileUpdatePage: React.FC<ProfileUpdateProps> = ({
   user_id,
-  nickname,
+  username,
   birthday,
   gender,
   phoneNumber,
 }) => {
   const [selectedGender, setSelectedGender] = useState<GenderType>(gender);
 
-  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Handle nickname change
+  // TODO no state from previous page (App or Navbar I forgot) yet.
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Handle username change
   };
 
   const handleBirthdayChange = (date: Dayjs | null, dateString: string) => {
@@ -58,7 +59,7 @@ const ProfileUpdatePage: React.FC<ProfileUpdateProps> = ({
       <h1>信息更新</h1>
       <FormItem>
         <label>昵称:</label>
-        <Input value={nickname} onChange={handleNicknameChange} />
+        <Input value={username} onChange={handleUsernameChange} />
       </FormItem>
       <FormItem>
         <label>生日:</label>

@@ -2,18 +2,18 @@ import React, {useState } from 'react'
 import MDSpinner from 'react-md-spinner';
 import './style.css';
 import emptyChatImage from '../../assets/empty-state.svg';
-import { User } from '../../types/User';
 import { If } from '../../app/If';
 import { IMessage } from '../../types/IMessage';
 import { MessageListDetail } from './MessageListDetail';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { useParams } from 'react-router-dom';
+import { LoginUser } from '../../state/pk-system-state';
 
 interface Props {
     isBotTyping: boolean;
     isLoading: boolean;
     messages: IMessage[];
-    user: User;
+    user: LoginUser;
     pageRef: React.Ref<HTMLDivElement>
     //renderMessage?: RenderMessageFunction;
 }
