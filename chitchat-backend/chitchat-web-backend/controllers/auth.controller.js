@@ -1,8 +1,6 @@
-import { User } from "../models/user.model.js";
+import { UserModel } from "../models/user.js";
 
-import { findByPhone, findById } from "../services/userServices.js";
-
-import { getUser } from "../services/userProfileService.js";
+import { findByPhone } from "../services/userServices.js";
 
 import {
   PHONE_NOT_FOUND_ERR,
@@ -22,7 +20,8 @@ const COOKIE_NAME = "auth_token";
 export async function loginOrRegisterUser(req, res, next) {
   try {
     const { phone } = req.body;
-    var user = await getUser({ phone: phone });
+    /** TZ TODO review after the new registration process
+    var user = await findByPhone(phone);
     if (!user) {
       res.status(500).json({
         type: "error",
@@ -31,6 +30,7 @@ export async function loginOrRegisterUser(req, res, next) {
       });
       return;
     }
+     */
     var regitser_user = await findByPhone(phone);
     // register if a new user
     if (!regitser_user) {
@@ -41,7 +41,7 @@ export async function loginOrRegisterUser(req, res, next) {
           type: "success",
           message: "Account created OTP sended to mobile number",
           data: {
-            userId: user._id,
+            userId: user.id,
           },
         });
       } else {
@@ -85,7 +85,8 @@ export async function loginOrRegisterUser(req, res, next) {
 async function createNewUser(phone, next) {
   try {
     // create new user
-    const createUser = new User({
+    const createUser = new UserModel({
+      // TZ TODO id?
       phone,
       role: phone === process.env.ADMIN_PHONE ? "ADMIN" : "USER",
     });
@@ -121,8 +122,8 @@ export async function verifyOTP(req, res, next) {
     }
     console.log("[Debug] user", JSON.stringify(user));
 
-    const user_profile = await getUser({ phone: phone });
-    const token = createJwtToken({ userId: user_profile.user_id });
+    const user_profile = await findByPhone(phone);
+    const token = createJwtToken({ userId: user_profile.id });
 
     // user.phoneOtp = "";
     // await user.save();
@@ -136,7 +137,7 @@ export async function verifyOTP(req, res, next) {
       message: "登录成功",
       data: {
         token,
-        userId: user_profile.user_id,
+        userId: user_profile.id,
       },
     });
   } catch (error) {
@@ -152,12 +153,7 @@ export async function fetchCurrentUser(req, res, next) {
       type: "success",
       message: "fetch current user",
       data: {
-        userId: res.locals.userId,
-        userName: res.locals.userName,
-        gender: res.locals.gender,
-        birthday: res.locals.birthday,
-        city: res.locals.city,
-        phone: res.locals.phone
+        user: res.locals.user,
       },
     });
   } catch (error) {

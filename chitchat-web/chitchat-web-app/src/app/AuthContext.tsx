@@ -45,10 +45,13 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                 },
             });
             // set user info
-            action.setUserId(response.data.data.userId);
-            action.setGender(response.data.data.gender);
-            action.setUserName(response.data.data.userName);
-            action.setUserRole(UserRole.GUEST); // TODO: store role in DB
+            action.setUserId(response.data.data.user.id);
+            action.setGender(response.data.data.user.gender);
+            action.setUserName(response.data.data.user.username);
+            action.setProfileBirthday(response.data.data.user.birthday);
+            action.setProfileAvatar(response.data.data.user.profileUrl);
+            action.setProfilePhoneNumber(response.data.data.user.phone);
+            action.setUserRole(UserRole.USER); // TODO: store role in DB
             
             setIsLoggedIn(true);
             action.setIsLoggedIn(true);

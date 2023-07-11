@@ -1,4 +1,4 @@
-import { getUserByUserId } from "../services/userProfileService.js";
+import { findById } from "../services/userServices.js";
 import { getModelByModelId } from "../services/modelProfileService.js";
 import ChatClientFactory from "../chat-client/chat-client-factory.js";
 import { ChatClientType } from "../chat-client/chat-client-factory.js";
@@ -8,11 +8,11 @@ export const sendMessage = async (req, res) => {
     const message = req.body.message;
     const user_id = req.body.user_id;
     const model_id = req.body.model_id;
-    var user = await getUserByUserId(user_id);
+    var user = await findById(user_id);
     var model = await getModelByModelId(model_id);
     var chat_client = ChatClientFactory.createChatClient(
       ChatClientType.CHATGPT,
-      user.user_name,
+      user.username,
       model.model_name,
       model_id
     );
@@ -32,11 +32,11 @@ export const joinChat = async (req, res) => {
   try {
     const user_id = req.body.user_id;
     const model_id = req.body.model_id;
-    var user = await getUserByUserId(user_id);
+    var user = await findById(user_id);
     var model = await getModelByModelId(model_id);
     var chat_client = ChatClientFactory.createChatClient(
       ChatClientType.CHATGPT,
-      user.user_name,
+      user.username,
       model.model_name,
       model_id
     );

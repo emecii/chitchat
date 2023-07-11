@@ -2,7 +2,7 @@ import { Router } from "express";
 import { upload_image } from "../controllers/image.controller.js";
 import { get_wechat_config } from "../controllers/wechat.controller.js";
 import { sendMessage, joinChat } from "../controllers/chat.controller.js";
-import { getUserProfile, postUserProfile, upsertUserTags, updateUserProfile } from "../controllers/user.controller.js";
+import { getUserProfile, createUserProfile, upsertUserTags, updateUserProfile } from "../controllers/user.controller.js";
 import {
   getModelProfile,
   postModelProfile,
@@ -387,7 +387,7 @@ router.get("/user-profile/:user_id", getUserProfile);
  *                 error:
  *                   type: string
  */
-router.post("/user-profile", postUserProfile);
+router.post("/user-profile", createUserProfile);
 /**
  * @swagger
  * /update-user-profile:

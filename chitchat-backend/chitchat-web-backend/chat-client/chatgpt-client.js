@@ -2,7 +2,7 @@ import { KeyvFile } from "keyv-file";
 import ChatGPTClient from "@waylaidwanderer/chatgpt-api";
 import * as fs from "fs";
 import dotenv from "dotenv";
-import { getUserByUserId } from "../services/userProfileService.js";
+import { findById } from "../services/userServices.js";
 import { getModelByModelId } from "../services/modelProfileService.js";
 import axios from "axios";
 import ChatClient from "./chat-client.js";
@@ -198,12 +198,12 @@ export default class ChatGPTNodeClient extends ChatClient {
 
   async join_chat(user_id, model_id) {
     try {
-      var user = await getUserByUserId(user_id);
+      var user = await findById(user_id);
       var model = await getModelByModelId(model_id);
       const model_gender = model.model_type;
       var user_name = "用户";
-      if (user && user.user_name) {
-        user_name = user.user_name;
+      if (user && user.username) {
+        user_name = user.username;
       }
       var cond = {
         user_id: user_id,

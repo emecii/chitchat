@@ -1,5 +1,4 @@
 import { findById } from "../services/userServices.js";
-import { getUserByUserId } from "../services/userProfileService.js";
 import {
   ACCESS_DENIED_ERR,
   AUTH_TOKEN_MISSING_ERR,
@@ -40,19 +39,28 @@ export async function checkAuth(req, res, next) {
       }
     }
 
-    const user_profile = await getUserByUserId(userId);
+    const user_profile = await findById(userId);
 
     if (!user_profile) {
       next({ status: 404, message: USER_NOT_FOUND_ERR });
       return;
     }
 
-    res.locals.userId = user_profile.user_id;
-    res.locals.userName = user_profile.user_name;
-    res.locals.gender = user_profile.gender;
-    res.locals.birthday = user_profile.dob;
-    res.locals.city = user_profile.city;
-    res.locals.phone = user_profile.phone;
+    res.locals.user = {
+      id: user_profile.id,
+      username: user_profile.username,
+      phone: user_profile.phone,
+      role: user_profile.role,
+      birthday: user_profile.birthday,
+      gender: user_profile.gender,
+      profileUrl: user_profile.profileUrl,
+      phoneOtp: user_profile.phoneOtp,
+      // not yet implemented
+      //city: String,
+      //wechatId: String,
+      //currentModelId: String,
+      //email: String,
+    };
 
     next();
   } catch (err) {

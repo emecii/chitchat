@@ -1,11 +1,13 @@
-import { getUser, getUserByUserId, insertUser, updateUser, upsertUserTags as mongoUpsertUserTags } from "../services/userProfileService.js";
+import { findById, findByPhone, insertUser, updateUser} from "../services/userServices.js";
+import { upsertUserTags as mongoUpsertUserTags } from "../services/userTagServices.js"
 import { validateUserProfile } from "../utils/validate.util.js";
+
 export const getUserProfile = async (req, res) => {
   const user_id = req.params.user_id;
-  var user = await getUserByUserId(user_id);
+  var user = await findById(user_id);
   if (user) {
     res.json({
-      message: `user ${user.user_name} found!`,
+      message: `user ${user.username} found!`,
       data: user,
       status: "success",
     });
@@ -14,22 +16,22 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
-export const postUserProfile = async (req, res) => {
-  const user_id = req.body.user_id;
-  const user_name = req.body.user_name;
+export const createUserProfile = async (req, res) => {
+  const id = req.body.user_id;
+  const username = req.body.user_name;
   const gender = req.body.gender;
   const birthday = req.body.birthday;
-  const city = req.body.birthday;
+  const city = req.body.city;
   const phone = req.body.phone;
-  const profile_url = req.body.profile_url;
+  const profileUrl = req.body.profile_url;
   const user = {
-    user_id: user_id,
-    user_name: user_name,
-    gender: gender,
-    birthday: birthday,
-    city: city,
-    phone: phone,
-    profile_url: profile_url,
+    id,
+    username,
+    gender,
+    birthday,
+    city,
+    phone,
+    profileUrl,
   };
   const validationErrors = await validateUserProfile(user);
   console.log(validationErrors);
@@ -40,48 +42,46 @@ export const postUserProfile = async (req, res) => {
   // TODO: remove the following code since phone number and id is required
   // TODO: from pk no phone number, get user will always return a user who has no phone number
   // We should either ask for phone number on pk or use other fields as DB key
-  const key = phone ? {phone:phone} : {user_id:user_id};
-  var existing_user = await getUser(key);
+  var existing_user = phone ? await findByPhone(phone) : await findById(user_id);
   if (existing_user) {
     res.status(409).json({ error: "User already existed!" });
     return;
   }
   try {
     await insertUser(user);
-    res.json({ message: `user ${user_name} added!`, status: "success" });
+    res.json({ message: `user ${username} added!`, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 export const updateUserProfile = async (req, res) => {
-  const user_id = req.body.user_id;
-  const user_name = req.body.user_name;
+  const id = req.body.user_id;
+  const username = req.body.user_name;
   const gender = req.body.gender;
   const birthday = req.body.birthday;
-  const city = req.body.birthday;
+  const city = req.body.city;
   const phone = req.body.phone;
-  const profile_url = req.body.profile_url;
+  const profileUrl = req.body.profile_url;
   const user = {
-    user_id: user_id,
-    user_name: user_name,
-    gender: gender,
-    birthday: birthday,
-    city: city,
-    phone: phone,
-    profile_url: profile_url,
+    id,
+    username,
+    gender,
+    birthday,
+    city,
+    phone,
+    profileUrl,
   };
   // TODO: from pk no phone number, get user will always return a user who has no phone number
   // We should either ask for phone number on pk or use other fields as DB key
-  const key = phone ? {phone:phone} : {user_id:user_id};
-  var existing_user = await getUser(key);
+  var existing_user = phone ? await findByPhone(phone) : await findById(user_id);
   if (!existing_user) {
     res.status(400).json({ error: "User does not exist!" });
     return;
   }
   try {
     await updateUser(user);
-    res.json({ message: `user ${user_name} updated!`, status: "success" });
+    res.json({ message: `user ${username} updated!`, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
