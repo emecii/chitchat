@@ -35,18 +35,18 @@ export const joinChat = async (req, res) => {
     var user = await findById(user_id);
     var model = await getModelByModelId(model_id);
     var chat_client = ChatClientFactory.createChatClient(
-      ChatClientType.CHATGPT,
+      ChatClientType.LANGCHAIN,
       user.username,
       model.model_name,
       model_id
     );
-    var joinChatRes = await chat_client.join_chat(user_id, model_id);
+    var join_chat_res = await chat_client.join_chat(user_id, model_id);
     res.json({
-      message: joinChatRes.message,
+      message: join_chat_res.message,
       status: "success",
       user_id: user_id,
       model_id: model_id,
-      chat_history: joinChatRes.return_chat_history,
+      chat_history: join_chat_res.return_chat_history,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

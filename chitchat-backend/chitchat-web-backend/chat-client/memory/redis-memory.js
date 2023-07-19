@@ -14,7 +14,7 @@ class RedisMemory {
         sessionId: conv_id,
         // sessionTTL: 300,  // uncomment to enable session expiry
         config: {
-          url: Process.env.REDIS_URL, 
+          url: process.env.REDIS_URL, 
         },
       }),
     });
