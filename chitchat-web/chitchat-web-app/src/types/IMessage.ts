@@ -1,7 +1,7 @@
-import { AppUser } from "../state/pk-system-state";
+import { AppUser } from '../state/pk-system-state';
 
 export interface IMessage {
-    text: string,
-    id: string,
-    sender: AppUser
+  text: string;
+  id: string;
+  sender: AppUser;
 }

@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import LoginPage from "./register/LoginPage";
+import LoginPage from './register/LoginPage';
 import UnAuthenticatedLayout from '../app/UnAuthenticatedLayout';
 
 export default class Login extends React.Component {

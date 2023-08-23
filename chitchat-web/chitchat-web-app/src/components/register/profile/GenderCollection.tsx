@@ -16,7 +16,7 @@ interface GenderCollectionProps {
 
 const GenderCollection: React.FC<GenderCollectionProps> = ({
   selectedOption,
-  onSelectOption
+  onSelectOption,
 }) => {
   return (
     <div>

@@ -1,4 +1,4 @@
 export interface ModelAvatar {
-    avatarSrc: string;
-    modelId: string;
+  avatarSrc: string;
+  modelId: string;
 }

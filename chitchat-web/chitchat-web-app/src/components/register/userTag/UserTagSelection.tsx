@@ -12,8 +12,8 @@ const TagItem = styled.div<{ selected: boolean }>`
   display: inline-block;
   padding: 5px 10px;
   border-radius: 5px;
-  background-color: ${(props) => (props.selected ? "#000" : "#f0f0f0")};
-  color: ${(props) => (props.selected ? "#fff" : "#000")};
+  background-color: ${(props) => (props.selected ? '#000' : '#f0f0f0')};
+  color: ${(props) => (props.selected ? '#fff' : '#000')};
   margin: 5px;
   cursor: pointer;
 `;
@@ -22,13 +22,15 @@ interface UserTagSelectionProps {
   onTagsChange: (tags: string[]) => void;
 }
 
-const UserTagSelection: React.FC<UserTagSelectionProps> = ({ onTagsChange }) => {
+const UserTagSelection: React.FC<UserTagSelectionProps> = ({
+  onTagsChange,
+}) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const handleTagClick = (tag: string) => {
     let newSelectedTags: string[];
     if (selectedTags.includes(tag)) {
-      newSelectedTags = selectedTags.filter(t => t !== tag);
+      newSelectedTags = selectedTags.filter((t) => t !== tag);
     } else {
       newSelectedTags = [...selectedTags, tag];
     }
@@ -36,7 +38,6 @@ const UserTagSelection: React.FC<UserTagSelectionProps> = ({ onTagsChange }) => 
     // Notify parent component
     onTagsChange(newSelectedTags);
   };
-
 
   return (
     <TagsContainer>
@@ -51,6 +52,6 @@ const UserTagSelection: React.FC<UserTagSelectionProps> = ({ onTagsChange }) => 
       ))}
     </TagsContainer>
   );
-}
+};
 
 export default UserTagSelection;

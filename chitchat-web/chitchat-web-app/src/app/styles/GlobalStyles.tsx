@@ -1,11 +1,13 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 
-${'' /* 
+${
+  '' /* 
 *{
     outline: 1px solid red !important;
-} */}
+} */
+}
 
 *,*::before,*::after{
     margin: 0;
@@ -29,6 +31,6 @@ a{
 .ant-form-item-label > label {
     color: white !important;
   }
-`
+`;
 
 export default GlobalStyles;

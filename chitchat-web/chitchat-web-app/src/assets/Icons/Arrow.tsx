@@ -1,6 +1,6 @@
-import * as React from "react"
+import * as React from 'react';
 
-const Arrow = (props:any) => (
+const Arrow = (props: any) => (
   <svg
     width={props.width || 50}
     height={props.height || 50}
@@ -43,6 +43,6 @@ const Arrow = (props:any) => (
       </filter>
     </defs>
   </svg>
-)
+);
 
-export default Arrow
+export default Arrow;

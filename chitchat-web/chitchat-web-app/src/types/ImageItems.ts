@@ -1,3 +1,3 @@
-import { ImageItem } from "./ImageItem";
+import { ImageItem } from './ImageItem';
 
-export interface ImageItems extends Array<ImageItem> { }
+export interface ImageItems extends Array<ImageItem> {}

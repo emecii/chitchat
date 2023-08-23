@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Select } from "antd";
+import React, { useState } from 'react';
+import { Select } from 'antd';
 
 const { Option } = Select;
 
@@ -14,13 +14,13 @@ const MBTISurveyComponent: React.FC<MBTISurveyComponentProps> = ({
     onMBTITypeChange(value);
     setMBTIType(value);
   };
-  const [mbtiType, setMBTIType] = useState("");
+  const [mbtiType, setMBTIType] = useState('');
 
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
+    <div style={{ maxWidth: '600px', margin: '0 auto', padding: '20px' }}>
       <p>请选择你的MBTI人格:</p>
       <Select
-        style={{ width: "100%", marginBottom: "20px" }}
+        style={{ width: '100%', marginBottom: '20px' }}
         placeholder="请选择你的MBTI人格"
         onChange={handleMBTITypeChange}
         value={mbtiType}

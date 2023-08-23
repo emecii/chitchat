@@ -84,6 +84,7 @@
   "devDependencies": {
     "@types/dotenv-webpack": "^7.0.3",
     "@types/styled-components": "^5.1.26",
-    "dotenv-webpack": "^8.0.1"
+    "dotenv-webpack": "^8.0.1",
+    "prettier": "^3.0.2"
   }
 }

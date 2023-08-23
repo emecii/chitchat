@@ -22,14 +22,14 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 800px; 
+  max-width: 800px;
   padding: 20px;
   box-sizing: border-box;
   margin: 0 auto;
   margin: 30px auto;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
 `;
 
 const Title = styled.h1`
@@ -60,12 +60,17 @@ const InputContainer = styled.div`
 `;
 
 const StyledInput = styled.input`
-  background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05);
+  background: radial-gradient(
+      100% 100% at 50% 0%,
+      rgba(255, 133, 133, 0.2) 0%,
+      rgba(255, 133, 133, 0) 100%
+    ),
+    rgba(255, 255, 255, 0.05);
   color: #ffffff;
   width: 100%;
   padding: 5px;
-  margin-bottom:5px;
-  margin-top:5px;
+  margin-bottom: 5px;
+  margin-top: 5px;
   border-radius: 5px;
 
   &::placeholder {
@@ -95,18 +100,26 @@ const TagItem = styled.div<{ selected: boolean }>`
   padding: 5px 10px;
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.15);
-  box-shadow: ${(props) => (props.selected ? "none" : "0px 4px 10px 0px rgba(0, 0, 0, 0.10)")};
-  border: ${(props) => (props.selected ? "1px solid transparent" : "none")};
-  border-image: ${(props) => (props.selected ? "linear-gradient(87deg, #523DFF 0%, #FF679E 100%)" : "none")};
+  box-shadow: ${(props) =>
+    props.selected ? 'none' : '0px 4px 10px 0px rgba(0, 0, 0, 0.10)'};
+  border: ${(props) => (props.selected ? '1px solid transparent' : 'none')};
+  border-image: ${(props) =>
+    props.selected
+      ? 'linear-gradient(87deg, #523DFF 0%, #FF679E 100%)'
+      : 'none'};
   border-image-slice: 1;
   color: #ffffff;
   margin: 5px;
   cursor: pointer;
 `;
 
-
 const StyledTextarea = styled.textarea`
-  background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05);
+  background: radial-gradient(
+      100% 100% at 50% 0%,
+      rgba(255, 133, 133, 0.2) 0%,
+      rgba(255, 133, 133, 0) 100%
+    ),
+    rgba(255, 255, 255, 0.05);
   width: 100%;
   min-height: 100px;
   padding: 5px;
@@ -177,14 +190,13 @@ const StyledSwitch = styled.label`
   }
 `;
 
-
 const StyledButton = styled.button<{ primary?: boolean }>`
   padding: 10px 20px;
   border-radius: 5px;
   font-size: 16px;
   margin-bottom: 20px;
   cursor: pointer;
-  background-color: ${(props) => (props.primary ? "#000" : "#07c160")};
+  background-color: ${(props) => (props.primary ? '#000' : '#07c160')};
   color: #fff;
 
   &:hover {
@@ -216,7 +228,7 @@ const StyledRadioButtonLabel = styled.label`
   font-size: 14px;
   color: #ffffff;
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
   border: 1px solid #333;
   border-radius: 5px;
   cursor: pointer;
@@ -227,12 +239,12 @@ const StyledRadioButtonLabel = styled.label`
   }
 `;
 
-const StyledRadioButton = styled.input.attrs({ type: "radio" })`
+const StyledRadioButton = styled.input.attrs({ type: 'radio' })`
   display: none;
 
   &:checked + ${StyledRadioButtonLabel} {
     color: #fff;
-    border-image: linear-gradient(87deg, #523DFF 0%, #FF679E 100%);
+    border-image: linear-gradient(87deg, #523dff 0%, #ff679e 100%);
     border-image-slice: 1;
   }
 `;
@@ -269,7 +281,7 @@ const CenteredContainer = styled.div`
 
 const StyledSelect = styled.select`
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
   color: #ffffff;
   padding: 0.5em;
   font-size: 1em;
@@ -300,9 +312,9 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
   const [isPublicAiBot, setIsPublicAiBot] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const [goodwill, setGoodwill] = useState("100");
-  const [moralSense, setMoralSense] = useState("100");
-  const [humor, setHumor] = useState("100");
+  const [goodwill, setGoodwill] = useState('100');
+  const [moralSense, setMoralSense] = useState('100');
+  const [humor, setHumor] = useState('100');
 
   const redirectToNewPage = useRedirectToNewPage();
 
@@ -315,34 +327,38 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
   };
 
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>, userId: string, modelId: string) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+    userId: string,
+    modelId: string,
+  ) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
       try {
         // Upload the image to the backend
         setIsUploading(true);
         const formData = new FormData();
-        formData.append("file", file);
-        formData.append("user_id", userId);
-        formData.append("model_id", modelId);
+        formData.append('file', file);
+        formData.append('user_id', userId);
+        formData.append('model_id', modelId);
         const TIMEOUT_DURATION = 30000;
 
         const timeoutPromise = (ms: number) => {
           return new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Request timeout')), ms)
+            setTimeout(() => reject(new Error('Request timeout')), ms),
           );
         };
 
-        const response = await Promise.race([
+        const response = (await Promise.race([
           fetch(`${ENDPOINT}/api/upload-image`, {
             method: 'POST',
-            body: formData
+            body: formData,
           }),
-          timeoutPromise(TIMEOUT_DURATION)
-        ]) as Response;
+          timeoutPromise(TIMEOUT_DURATION),
+        ])) as Response;
 
         if (!response.ok) {
-          message.error("图片上传失败，请刷新重试");
+          message.error('图片上传失败，请刷新重试');
           throw new Error('Failed to upload the image');
         }
 
@@ -354,18 +370,17 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
 
         // Add the uploaded image URL to the state
         setUploadedImages([...uploadedImages, image_url]);
-        message.success("图片上传成功");
+        message.success('图片上传成功');
       } catch (error: unknown) {
         console.error('Error uploading image, please retry.', error);
         // If error message is "Request timeout", show a specific error message
         if ((error as Error).message === 'Request timeout') {
-          message.error("图片上传超时，请刷新重试");
+          message.error('图片上传超时，请刷新重试');
           console.error('图片上传超过10秒', error);
         } else {
-          message.error("图片上传失败，请稍后重试或添加下方微信群联系管理员。");
+          message.error('图片上传失败，请稍后重试或添加下方微信群联系管理员。');
         }
-      }
-      finally {
+      } finally {
         setIsUploading(false);
       }
     }
@@ -379,16 +394,20 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
     setIsModalOpen(true);
   };
 
-  const userId = state.user.id === "unknown" ? createRandomUserId() : state.user.id;
+  const userId =
+    state.user.id === 'unknown' ? createRandomUserId() : state.user.id;
   const MODEL_URL = `${FRONT_ENDPOINT}/chat/${modelId}`;
   const CHAT_URL = `/chat/${modelId}`;
   const FORUM_URL = `/forum`;
-  const options = Array.from({length: 101}, (_, i) => i); // an array of options from 0 to 100 used for goodwill etc
-
+  const options = Array.from({ length: 101 }, (_, i) => i); // an array of options from 0 to 100 used for goodwill etc
 
   const handleSubmit = async () => {
     // Verify unknown
-    if (aiName.trim() === '' || gender.trim() === '' || relationship.trim() === '') {
+    if (
+      aiName.trim() === '' ||
+      gender.trim() === '' ||
+      relationship.trim() === ''
+    ) {
       message.error('名称、性别以及和我的关系为必填项，请填写完整！');
       return;
     }
@@ -411,10 +430,12 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       is_public: isPublicAiBot,
       greetings: greeting,
       relationship: relationship,
-      image_url: uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
+      image_url:
+        uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
       upVote: 1,
       downVote: 0,
-      img_url: uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
+      img_url:
+        uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
       city: city,
       hometown: hometown,
       dislike: dislike,
@@ -422,7 +443,7 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       moralSense: moralSense,
       humor: humor,
     };
-    
+
     try {
       const response = await axios.post(`${ENDPOINT}/api/model-profile`, {
         user_id: userId,
@@ -433,20 +454,19 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       });
 
       if (response.status === HttpStatus.OK) {
-        message.success("AI角色创建成功");
+        message.success('AI角色创建成功');
         if (state.user.id) {
-          message.success("请及时注册保存当前角色");
+          message.success('请及时注册保存当前角色');
         }
-        console.log("set modelMetadata succeeded", response.data);
+        console.log('set modelMetadata succeeded', response.data);
         // show model
         handleModalOpen();
-
       } else {
-        message.error("页面错误，请稍后重试或添加下方微信群联系管理员。");
+        message.error('页面错误，请稍后重试或添加下方微信群联系管理员。');
         //console.log("set modelMetadata failed", response);
       }
     } catch (err) {
-      message.error("页面错误，请稍后重试或添加下方微信群联系管理员。");
+      message.error('页面错误，请稍后重试或添加下方微信群联系管理员。');
       console.log(err);
     }
   };
@@ -455,16 +475,18 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
     redirectToNewPage(CHAT_URL);
   };
 
-
   return (
     <Container>
       <Title>创建我的AI角色</Title>
       {uploadedImages.map((imageUrl, index) => (
-        <UploadArea key={index} style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }} />
+        <UploadArea
+          key={index}
+          style={{
+            backgroundImage: `url(${imageUrl})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
       ))}
       {uploadedImages.length === 0 && (
         <UploadArea onClick={() => fileInputRef.current?.click()}>
@@ -478,9 +500,7 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
           />
         </UploadArea>
       )}
-      <Suspense fallback={<Loading />}>
-        {isUploading && <Loading />}
-      </Suspense>
+      <Suspense fallback={<Loading />}>{isUploading && <Loading />}</Suspense>
       <StyledLabel>头像大小请不要超过2MB。</StyledLabel>
       <InputContainer>
         <SectionTitle>名称</SectionTitle>
@@ -490,7 +510,9 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
           value={aiName}
           onChange={(e) => setAiName(e.target.value)}
         />
-        <StyledLabel>姓名不能重复且在10个字符以内。创建后无法修改。</StyledLabel>
+        <StyledLabel>
+          姓名不能重复且在10个字符以内。创建后无法修改。
+        </StyledLabel>
       </InputContainer>
       <InputContainer>
         <SectionTitle>和我的关系</SectionTitle>
@@ -535,7 +557,6 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
             {tag}
           </TagItem>
         ))}
-
       </TagsContainer>
 
       <InputContainer>
@@ -546,7 +567,9 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
           value={greeting}
           onChange={(e) => setGreeting(e.target.value)}
         />
-        <StyledLabel>开始与他人交流时，用来表示友好和礼貌的一句话或短语。</StyledLabel>
+        <StyledLabel>
+          开始与他人交流时，用来表示友好和礼貌的一句话或短语。
+        </StyledLabel>
       </InputContainer>
 
       <InputContainer>
@@ -569,7 +592,9 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
           value={freqChats3}
           onChange={(e) => setfreqChats3(e.target.value)}
         />
-        <StyledLabel>聊天口头禅可以是一些流行语、俚语、惯用语、感叹词或者个人特色的说法。</StyledLabel>
+        <StyledLabel>
+          聊天口头禅可以是一些流行语、俚语、惯用语、感叹词或者个人特色的说法。
+        </StyledLabel>
       </InputContainer>
 
       <FormContainer>
@@ -639,49 +664,67 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       <FormContainer>
         <InputContainer>
           <SectionTitle>好感度</SectionTitle>
-          <StyledSelect value={goodwill} onChange={(e) => setGoodwill(e.target.value)}>
-          {options.map((value, index) => (
-            <option key={index} value={value}>
-              {value}
-            </option>
-          ))}
-        </StyledSelect>
+          <StyledSelect
+            value={goodwill}
+            onChange={(e) => setGoodwill(e.target.value)}
+          >
+            {options.map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
+          </StyledSelect>
         </InputContainer>
 
         <InputContainer>
           <SectionTitle>道德感</SectionTitle>
-          <StyledSelect value={moralSense} onChange={(e) => setMoralSense(e.target.value)}>
-          {options.map((value, index) => (
-            <option key={index} value={value}>
-              {value}
-            </option>
-          ))}
+          <StyledSelect
+            value={moralSense}
+            onChange={(e) => setMoralSense(e.target.value)}
+          >
+            {options.map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
           </StyledSelect>
         </InputContainer>
 
         <InputContainer>
           <SectionTitle>幽默感</SectionTitle>
-          <StyledSelect value={humor} onChange={(e) => setHumor(e.target.value)}>
-          {options.map((value, index) => (
-            <option key={index} value={value}>
-              {value}
-            </option>
-          ))}
+          <StyledSelect
+            value={humor}
+            onChange={(e) => setHumor(e.target.value)}
+          >
+            {options.map((value, index) => (
+              <option key={index} value={value}>
+                {value}
+              </option>
+            ))}
           </StyledSelect>
         </InputContainer>
       </FormContainer>
 
       <InputContainer>
         <SectionTitle>其他特征</SectionTitle>
-        <StyledTextarea value={otherFeatures} onChange={(e) => setOtherFeatures(e.target.value)} />
-        <StyledLabel>包括但不限于，癖好：如摆弄手指、喜欢喝咖啡、痴迷音乐等。成长背景：AI角色的家庭背景、教育经历、成长经历等。擅长领域：如编程、绘画、写作、烹饪等。信仰与价值观：AI角色可能有一定的宗教信仰、道德观念、人生观等。</StyledLabel>
+        <StyledTextarea
+          value={otherFeatures}
+          onChange={(e) => setOtherFeatures(e.target.value)}
+        />
+        <StyledLabel>
+          包括但不限于，癖好：如摆弄手指、喜欢喝咖啡、痴迷音乐等。成长背景：AI角色的家庭背景、教育经历、成长经历等。擅长领域：如编程、绘画、写作、烹饪等。信仰与价值观：AI角色可能有一定的宗教信仰、道德观念、人生观等。
+        </StyledLabel>
       </InputContainer>
 
       <SwitchContainer>
         <SwitchContainerWrapper>
           <SectionTitle>是否公开此角色</SectionTitle>
           <StyledSwitch>
-            <input type="checkbox" checked={isPublicAiBot} onChange={() => setIsPublicAiBot(!isPublicAiBot)} />
+            <input
+              type="checkbox"
+              checked={isPublicAiBot}
+              onChange={() => setIsPublicAiBot(!isPublicAiBot)}
+            />
             <span></span>
           </StyledSwitch>
         </SwitchContainerWrapper>
@@ -699,25 +742,33 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       >
         <CenteredContainer>
           {uploadedImages.map((imageUrl, index) => (
-            <UploadArea key={index} style={{
-              backgroundImage: `url(${imageUrl})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }} />
+            <UploadArea
+              key={index}
+              style={{
+                backgroundImage: `url(${imageUrl})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
           ))}
           <SectionTitle>{aiName}角色创建成功!</SectionTitle>
           <ButtonsContainer>
             <StyledButton primary onClick={handleStartChat}>
               开始聊天{' >'}
             </StyledButton>
-            <StyledButton primary onClick={() => redirectToNewPage(FORUM_URL)}>查看所有角色</StyledButton>
+            <StyledButton primary onClick={() => redirectToNewPage(FORUM_URL)}>
+              查看所有角色
+            </StyledButton>
           </ButtonsContainer>
           <ShareButtonContainer>
-          <StyledButton onClick={useShareToWechat(MODEL_URL, uploadedImages[0], aiName)}>分享到微信</StyledButton>
-        </ShareButtonContainer>
+            <StyledButton
+              onClick={useShareToWechat(MODEL_URL, uploadedImages[0], aiName)}
+            >
+              分享到微信
+            </StyledButton>
+          </ShareButtonContainer>
         </CenteredContainer>
       </Modal>
-
     </Container>
   );
 };
