@@ -25,6 +25,7 @@ const userProfileSchema = object().shape({
 
 export const validateUserProfile = async (
   data: UserProfile,
+// eslint-disable-next-line @typescript-eslint/ban-types
 ): Promise<{ [key: string]: string } | {}> => {
   let errors: { [key: string]: string } = {};
   const paths = Object.keys(userProfileSchema.fields);

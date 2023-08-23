@@ -1,5 +1,4 @@
 import ReactGA from 'react-ga4';
-import pkg from '../../package.json';
 
 const pageview = (pathname: any) => {
   if (process.env.NODE_ENV !== 'production') {

@@ -1,7 +1,6 @@
 import {
   createHook,
   createStore,
-  defaults,
   StoreActionApi,
 } from 'react-sweet-state';
 import { baseState, BaseState, baseActions, BaseActions } from './index';

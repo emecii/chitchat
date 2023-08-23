@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React from 'react';
 import LoginPage from './register/LoginPage';
 import UnAuthenticatedLayout from '../app/UnAuthenticatedLayout';
 

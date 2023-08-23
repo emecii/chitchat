@@ -25,7 +25,7 @@ const getRenderName = (isUser: boolean, message: IMessage) => {
   }
   return renderName;
 };
-var console = require('console-browserify');
+const console = require('console-browserify');
 export const MessageListDetail = ({
   messages,
   user,

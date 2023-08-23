@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Typewriter from 'typewriter-effect';
-import Button from './Button';
 import '@fontsource/zcool-kuaile';
 import { Link } from 'react-router-dom';
 import BlueButton from './BlueButton';
@@ -39,24 +38,6 @@ const Title = styled.h2`
   }
   @media (max-width: 40em) {
     width: 90%;
-  }
-`;
-const SubTitle = styled.h3`
-  font-size: ${(props) => props.theme.fontlg};
-  text-transform: capitalize;
-  color: ${(props) => `rgba(${props.theme.textRgba}, 0.6)`};
-  font-weight: 600;
-  margin-bottom: 1rem;
-  width: 80%;
-  align-self: flex-start;
-
-  @media (max-width: 40em) {
-    font-size: ${(props) => props.theme.fontmd};
-  }
-
-  @media (max-width: 48em) {
-    align-self: center;
-    text-align: center;
   }
 `;
 

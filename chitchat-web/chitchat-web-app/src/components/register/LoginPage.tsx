@@ -17,11 +17,10 @@ import axios from 'axios';
 import { HttpStatus } from '../../types/HttpStatus';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { ENDPOINT } from '../../types/Env';
-import UserRole from '../../types/UserRole';
 import { useAuth } from '../../app/AuthContext';
 import { useRedirectToNewPage } from '../../util/redirectToNewPage';
 
-var console = require('console-browserify');
+const console = require('console-browserify');
 
 const items: MenuProps['items'] = [
   {
@@ -190,7 +189,7 @@ const LoginPage = () => {
   };
 
   const handleMenuClick: MenuProps['onClick'] = (e) => {
-    var console = require('console-browserify');
+    const console = require('console-browserify');
     if (e.key == '2') {
       setCountry('+1');
     } else {
@@ -223,7 +222,7 @@ const LoginPage = () => {
       operationType: 'login',
       phoneNumber: form.getFieldsValue().phone,
     };
-    const res = await axios
+    await axios
       .post(`${ENDPOINT}/api/auth/login_with_otp`, {
         phone: data.phoneNumber,
       })
@@ -265,7 +264,7 @@ const LoginPage = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    message.error('请完成校验再登录');
+    message.error('请完成校验再登录', errorInfo);
   };
 
   useEffect(() => {

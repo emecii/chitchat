@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import NativeShare from 'nativeshare';
-import { ENDPOINT, FRONT_ENDPOINT } from '../../types/Env';
+import { ENDPOINT } from '../../types/Env';
 
 interface WechatConfig {
   appId: string;

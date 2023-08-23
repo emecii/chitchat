@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, FormEvent } from 'react';
-import PropTypes from 'prop-types';
 import { MessageList } from './MessageList';
 // import SendMessageForm from '../SendMessageForm/SendMessageForm';
 import { IMessage } from '../../types/IMessage';
@@ -17,7 +16,6 @@ interface Props {
   onSubmit: (mes: string) => void;
   pageRef: React.Ref<HTMLDivElement>;
 }
-var console = require('console-browserify');
 
 export const Chat = ({
   messages,

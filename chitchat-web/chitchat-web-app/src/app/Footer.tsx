@@ -119,7 +119,7 @@ const Bottom = styled.div`
 
 const Footer = () => {
   const scrollTo = (id: string) => {
-    let element = document.getElementById(id);
+    const element = document.getElementById(id);
 
     if (element)
       element.scrollIntoView({

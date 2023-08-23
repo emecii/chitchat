@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
-import { Avatar, Space, Button as AntButton, Modal } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Avatar, Space, Modal } from 'antd';
 import type { MenuProps as AntMenuProps } from 'antd';
 import { Dropdown as AntDropdown } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import Button from './Button';
 import { usePkSystemHook } from '../state/pk-system-hook';
@@ -13,7 +11,6 @@ import { If } from './If';
 import { useAuth } from './AuthContext';
 import BlueButton from './BlueButton';
 import { useRedirectToNewPage } from '../util/redirectToNewPage';
-import { DEFAULT_AVATAR_URL } from '../types/DefaultAvatarUrl';
 
 var console = require('console-browserify');
 const Section = styled.section`
@@ -204,8 +201,6 @@ const StyledAvatar = styled(Avatar)`
   }
 `;
 
-var console = require('console-browserify');
-
 const Navbar = () => {
   const [state, action] = usePkSystemHook();
   const [click, setClick] = useState(false);
@@ -265,9 +260,6 @@ const Navbar = () => {
     redirectToNewPage('/login');
   };
 
-  const handleCancel = () => {
-    action.setModelOpen(false);
-  };
   return (
     <Section id="navigation">
       <Navigation>

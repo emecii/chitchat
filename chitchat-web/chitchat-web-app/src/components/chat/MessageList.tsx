@@ -27,8 +27,6 @@ export const MessageList = ({
 }: Props) => {
   const [state, action] = usePkSystemHook();
   const { modelIdLink } = useParams();
-  const [swichingRole, setSwichingRole] = useState(false);
-  var console = require('console-browserify');
   // if(state.messageList[0] !== undefined){
   //     console.log("MessageList modelIdLink messageList",modelIdLink !==state.messageList[0].id)
   //     if(modelIdLink !==state.messageList[0].id) {

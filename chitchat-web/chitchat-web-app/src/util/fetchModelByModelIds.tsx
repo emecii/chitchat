@@ -22,7 +22,7 @@ export const fetchModelSrcByModelId = async (modelId: string) => {
       }
     })
     .catch((err) => {
-      //console.log("fetchModelSrcByModelId Error", err)
+      console.log("fetchModelSrcByModelId Error", err)
       return DEFAULT_AVATAR_URL;
     });
 };

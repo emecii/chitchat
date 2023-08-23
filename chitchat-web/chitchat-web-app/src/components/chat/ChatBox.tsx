@@ -28,7 +28,7 @@ const MockUser1 = {
   },
 } as AppUser;
 
-var console = require('console-browserify');
+const console = require('console-browserify');
 
 const ChatBox: React.FC<Props> = () => {
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ const ChatBox: React.FC<Props> = () => {
         },
       });
 
-      let activeModelIdArray = response.data.data as string[];
+      const activeModelIdArray = response.data.data as string[];
 
       if (activeModelIdArray.length > 0) {
         models = activeModelIdArray;

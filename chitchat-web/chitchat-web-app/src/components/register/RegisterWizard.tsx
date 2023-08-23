@@ -215,7 +215,7 @@ const RegisterWizard: React.FC = () => {
           console.error(err);
         }
       });
-    var mbtiString = mbtiType;
+    let mbtiString = mbtiType;
     if (mbtiType === 'IDK') {
       if (mbtiMap.has(mbtiScore)) {
         mbtiString = mbtiMap.get(mbtiScore)!;

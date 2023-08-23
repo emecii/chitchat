@@ -13,12 +13,12 @@ import { initialize, setGAUserId } from '../app/GaEvent';
 import _ from 'lodash';
 import UserRole from '../types/UserRole';
 
-var console = require('console-browserify');
+const console = require('console-browserify');
 export const pkSystemAction = {
   registerNewUserProfile:
     (gender: GenderType, userName: string) =>
-    async ({ setState, getState }: pkSystemApi) => {
-      let curUserId = getState().user.id;
+    async ({ getState }: pkSystemApi) => {
+      const curUserId = getState().user.id;
       initialize();
       setGAUserId(curUserId);
       //console.log("fetchUserProfile gender", gender, "userName:", userName, "userID:", curUserId);
@@ -30,6 +30,7 @@ export const pkSystemAction = {
         })
         .then((response) => {
           if (response.status === HttpStatus.OK) {
+            // succeed
           } else {
             message.error(
               '获取用户信息错误，请稍后重试或添加下方微信群联系管理员。',
@@ -50,7 +51,7 @@ export const pkSystemAction = {
     },
   fetchModelProfile:
     (gender: GenderType) =>
-    async ({ setState, getState }: pkSystemApi) => {
+    async ({ setState }: pkSystemApi) => {
       // send reqire models
       await axios
         .get(`${ENDPOINT}/api/model-profile`, {
@@ -163,8 +164,8 @@ export const pkSystemAction = {
   handleJoinChat:
     (modelId: string) =>
     async ({ getState, setState }: pkSystemApi) => {
-      let modelName: string = 'AI角色';
-      let modelSrc: string = '';
+      let modelName = 'AI角色';
+      let modelSrc = '';
       //console.log("pkSystemAction- handleJoinChat", modelId);
       // Fetch modelName and modelSrc from backend
       await axios
@@ -191,7 +192,7 @@ export const pkSystemAction = {
           message.error(
             '获取角色信息失败，请稍后重试或添加下方微信群联系管理员。',
           );
-          //console.log("handleJoinChat - fetchModelProfile Error", err)
+          console.log("handleJoinChat - fetchModelProfile Error", err)
         });
       // update curImage id in state since we will use it on send message post, and convert it to string
       //setState({curImageId: +modelId});

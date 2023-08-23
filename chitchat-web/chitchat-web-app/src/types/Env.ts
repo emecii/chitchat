@@ -1,7 +1,7 @@
-var endpoint = 'http://localhost:3000';
-var front_endpoint = 'http://localhost:3001';
-var env = process.env.NODE_ENV;
-var is_dev = process.env.REACT_APP_DEV_SERVER;
+let endpoint = 'http://localhost:3000';
+let front_endpoint = 'http://localhost:3001';
+const env = process.env.NODE_ENV;
+const is_dev = process.env.REACT_APP_DEV_SERVER;
 if (is_dev === 'true') {
   // dev server
   endpoint = 'https://chitchat-ai-backend-dev.onrender.com';

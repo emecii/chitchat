@@ -20,30 +20,6 @@ const Section = styled.section`
   }
 `;
 
-const ImgContainer = styled.div`
-  width: 100%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 0.2;
-
-  img {
-    width: 15rem;
-    height: auto;
-  }
-
-  @media (max-width: 48em) {
-    img {
-      width: 10rem;
-      height: auto;
-    }
-  }
-`;
 const Title = styled.h1`
   font-size: ${(props) => props.theme.fontxl};
   color: ${(props) => props.theme.body};

@@ -19,7 +19,7 @@ import Login from './components/login.component';
 
 const App: React.FC = () => {
   const location = useLocation();
-  const [state, action] = usePkSystemHook();
+  const [state] = usePkSystemHook();
 
   useEffect(() => {
     initialize();

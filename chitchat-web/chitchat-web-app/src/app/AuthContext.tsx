@@ -22,6 +22,7 @@ interface AuthProviderProps {
 
 const AuthContext = createContext<AuthState>({
   isLoggedIn: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setIsLoggedIn: () => {},
 });
 
@@ -36,7 +37,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   if (state.user.role === UserRole.GUEST && state.user.id === 'unknown') {
     // get a random user id and set it to the state
-    var randomId = Math.random().toString(36).substring(7);
+    const randomId = Math.random().toString(36).substring(7);
     action.setUserId(randomId);
   }
 

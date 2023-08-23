@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { ENDPOINT } from '../../types/Env';
-import GenderType from '../../types/GenderType';
 import { HttpStatus } from '../../types/HttpStatus';
 import { ModelAvatar } from '../../types/ModelAvatar';
 import { fetchModelSrcsByModelIds } from '../../util/fetchModelByModelIds';
@@ -43,7 +42,7 @@ const PlusOneIcon = {
 } as ModelAvatar;
 
 const ChatHeader: React.FC = () => {
-  const [state, action] = usePkSystemHook();
+  const [state] = usePkSystemHook();
   const [avatarList, setAvatarList] = useState<ModelAvatar[]>([]);
   const redirectToNewPage = useRedirectToNewPage();
   const { modelIdLink } = useParams();
