@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Form,
@@ -10,52 +10,56 @@ import {
   Dropdown,
   MenuProps,
   Space,
-} from "antd";
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
-import styled from "styled-components";
-import axios from "axios";
-import { HttpStatus } from "../../types/HttpStatus";
-import { usePkSystemHook } from "../../state/pk-system-hook";
-import { ENDPOINT } from "../../types/Env";
-import UserRole from "../../types/UserRole";
-import { useAuth } from "../../app/AuthContext";
-import { useRedirectToNewPage } from "../../util/redirectToNewPage";
+} from 'antd';
+import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import axios from 'axios';
+import { HttpStatus } from '../../types/HttpStatus';
+import { usePkSystemHook } from '../../state/pk-system-hook';
+import { ENDPOINT } from '../../types/Env';
+import { useAuth } from '../../app/AuthContext';
+import { useRedirectToNewPage } from '../../util/redirectToNewPage';
 
-var console = require("console-browserify");
+const console = require('console-browserify');
 
-const items: MenuProps["items"] = [
+const items: MenuProps['items'] = [
   {
-    label: "中国 +86",
-    key: "1",
+    label: '中国 +86',
+    key: '1',
     icon: <UserOutlined />,
   },
 ];
 
 // Form validation rules
 const rules = {
-  userName: [{ required: true, message: "请输入昵称" }],
-  dob: [{ required: true, message: "请输入生日" }],
-  gender: [{ required: true, message: "请输入性别" }],
-  phoneNumber: [{ required: true, message: "请输入电话号码" }],
+  userName: [{ required: true, message: '请输入昵称' }],
+  dob: [{ required: true, message: '请输入生日' }],
+  gender: [{ required: true, message: '请输入性别' }],
+  phoneNumber: [{ required: true, message: '请输入电话号码' }],
 };
 
 const PageWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height:90vh;
+  height: 90vh;
   width: 100vw;
 `;
 
 const LoginFormWrapper = styled.div`
   color: white;
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
   padding: 20px;
   border-radius: 10px;
   .ant-input {
     color: white !important;
-    background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05) !important;
+    background: radial-gradient(
+        100% 100% at 50% 0%,
+        rgba(255, 133, 133, 0.2) 0%,
+        rgba(255, 133, 133, 0) 100%
+      ),
+      rgba(255, 255, 255, 0.05) !important;
   }
   .ant-form-item-explain {
     text-align: left;
@@ -75,10 +79,19 @@ const LoginFormWrapper = styled.div`
   .login-form-codetext-button {
     min-width: 100px;
     color: white;
-    background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05);
+    background: radial-gradient(
+        100% 100% at 50% 0%,
+        rgba(255, 133, 133, 0.2) 0%,
+        rgba(255, 133, 133, 0) 100%
+      ),
+      rgba(255, 255, 255, 0.05);
   }
   .login-form-submit-button {
-    background: linear-gradient(89deg, rgb(82, 61, 255) 0%, rgb(255, 103, 158) 100%);
+    background: linear-gradient(
+      89deg,
+      rgb(82, 61, 255) 0%,
+      rgb(255, 103, 158) 100%
+    );
   }
   .login-form-register-button {
     margin-right: 10px;
@@ -87,7 +100,12 @@ const LoginFormWrapper = styled.div`
 `;
 
 const DarkButton = styled(Button)`
-  background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05);
+  background: radial-gradient(
+      100% 100% at 50% 0%,
+      rgba(255, 133, 133, 0.2) 0%,
+      rgba(255, 133, 133, 0) 100%
+    ),
+    rgba(255, 255, 255, 0.05);
   color: white;
 
   &:hover {
@@ -98,7 +116,7 @@ const DarkButton = styled(Button)`
 
 const DarkDropdown = styled(Dropdown)`
   .ant-dropdown-menu {
-    background-color: rgba(255, 133, 133, 0.20);
+    background-color: rgba(255, 133, 133, 0.2);
     color: white;
   }
 
@@ -118,18 +136,19 @@ const LoginPage = () => {
 
   // Jump to register page
   const showRegisterPage = () => {
-    redirectToNewPage("/register");
-  }
+    redirectToNewPage('/register');
+  };
 
   const [form] = Form.useForm();
   // const dispatch = useDispatch()
   //const history = useHistory();
   const [loading, setLoading] = useState(false);
 
-  let time = 60, timer: any;
-  const [codetext, setCodeText] = useState<any>("获取验证码");
+  let time = 60,
+    timer: any;
+  const [codetext, setCodeText] = useState<any>('获取验证码');
 
-  const [country, setCountry] = useState<string>("+86");
+  const [country, setCountry] = useState<string>('+86');
 
   const redirectToNewPage = useRedirectToNewPage();
 
@@ -145,34 +164,36 @@ const LoginPage = () => {
           response.status === HttpStatus.CREATED
         ) {
           const userToken = response.data.data.token;
-          localStorage.setItem("userToken", userToken);
+          localStorage.setItem('userToken', userToken);
           const uID = response.data.data.userId;
           action.setUserId(uID);
           setLoading(false);
           // Set the isLoggedIn state to true
           setIsLoggedIn(true);
+          // Fetching user profile data and store to front end state
+          action.fetchUserProfile(uID);
           // Jump to forum page
-          redirectToNewPage("/forum")
+          redirectToNewPage('/forum');
         } else {
           setLoading(false);
-          message.error("手机号或验证码有误，请重试");
+          message.error('手机号或验证码有误，请重试');
         }
       })
       .catch((err) => {
         setLoading(false);
-        message.error("手机号或验证码有误，请稍后重试或添加下方微信群联系管理员。");
+        message.error(
+          '手机号或验证码有误，请稍后重试或添加下方微信群联系管理员。',
+        );
         console.log(err);
       });
   };
 
-  const handleMenuClick: MenuProps["onClick"] = (e) => {
-    var console = require("console-browserify");
-    if (e.key == "2") {
-      setCountry("+1");
-      console.log("美国号码");
+  const handleMenuClick: MenuProps['onClick'] = (e) => {
+    const console = require('console-browserify');
+    if (e.key == '2') {
+      setCountry('+1');
     } else {
-      setCountry("+86");
-      console.log("中国号码");
+      setCountry('+86');
     }
   };
 
@@ -196,13 +217,12 @@ const LoginPage = () => {
     }
 
     setIsGettingCapcha(true);
-    await form.validateFields(["phone"]);
+    await form.validateFields(['phone']);
     const data = {
-      operationType: "login",
+      operationType: 'login',
       phoneNumber: form.getFieldsValue().phone,
     };
-    console.log("data.phoneNumber", data.phoneNumber);
-    const res = await axios
+    await axios
       .post(`${ENDPOINT}/api/auth/login_with_otp`, {
         phone: data.phoneNumber,
       })
@@ -211,21 +231,24 @@ const LoginPage = () => {
           response.status === HttpStatus.OK ||
           response.status === HttpStatus.CREATED
         ) {
-          message.success("验证码发送成功，请注意查收");
+          message.success('验证码发送成功，请注意查收');
         } else if (response.status === HttpStatus.FORBIDDEN) {
-          message.error("验证码发送过于频繁，请稍后再试");
+          message.error('验证码发送过于频繁，请稍后再试');
         } else {
-          message.error("验证码发送失败，请稍后重试或添加下方微信群联系管理员。");
+          message.error(
+            '验证码发送失败，请稍后重试或添加下方微信群联系管理员。',
+          );
         }
       })
       .catch((err) => {
         if (err.response.status === HttpStatus.FORBIDDEN) {
-          message.error("验证码发送过于频繁，请稍后再试");
+          message.error('验证码发送过于频繁，请稍后再试');
         } else if (err.response.data.message) {
           message.error(err.response.data.message);
-        }
-        else {
-          message.error("验证码发送失败，请稍后重试或添加下方微信群联系管理员。");
+        } else {
+          message.error(
+            '验证码发送失败，请稍后重试或添加下方微信群联系管理员。',
+          );
         }
       });
     timer = setInterval(() => {
@@ -233,7 +256,7 @@ const LoginPage = () => {
       setCodeText(time);
       if (time === 0 && timer) {
         clearInterval(timer);
-        setCodeText("获取验证码");
+        setCodeText('获取验证码');
         timer = 60;
         setIsGettingCapcha(false);
       }
@@ -241,7 +264,7 @@ const LoginPage = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    message.error("请完成校验再登录");
+    message.error('请完成校验再登录', errorInfo);
   };
 
   useEffect(() => {
@@ -253,9 +276,7 @@ const LoginPage = () => {
   return (
     <PageWrapper>
       <LoginFormWrapper>
-        <p>
-          登录账号以保存聊天记录并解锁所有功能。未注册请先注册哦~
-        </p>
+        <p>登录账号以保存聊天记录并解锁所有功能。未注册请先注册哦~</p>
         <section className="login-section">
           {!loading ? (
             <Form
@@ -280,7 +301,7 @@ const LoginPage = () => {
                     <Form.Item
                       noStyle
                       name="phone"
-                      rules={[{ required: true, message: "请输入电话号码" }]}
+                      rules={[{ required: true, message: '请输入电话号码' }]}
                     >
                       <Input />
                     </Form.Item>
@@ -293,14 +314,14 @@ const LoginPage = () => {
                     <Form.Item
                       name="verifyCode"
                       noStyle
-                      rules={[{ required: true, message: "请先获取验证码" }]}
+                      rules={[{ required: true, message: '请先获取验证码' }]}
                     >
                       <Input />
                     </Form.Item>
                   </Col>
                   <Col span={8}>
                     <Button
-                      disabled={codetext !== "获取验证码"}
+                      disabled={codetext !== '获取验证码'}
                       onClick={getCapcha}
                       className="login-form-codetext-button"
                     >
@@ -334,4 +355,4 @@ const LoginPage = () => {
     </PageWrapper>
   );
 };
-export default LoginPage
+export default LoginPage;

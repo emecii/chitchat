@@ -25,7 +25,12 @@ const ProfileCardWrapper = styled.div`
   padding: 40px;
   .ant-input {
     color: white !important;
-    background: radial-gradient(100% 100% at 50% 0%, rgba(255, 133, 133, 0.20) 0%, rgba(255, 133, 133, 0.00) 100%), rgba(255, 255, 255, 0.05) !important;
+    background: radial-gradient(
+        100% 100% at 50% 0%,
+        rgba(255, 133, 133, 0.2) 0%,
+        rgba(255, 133, 133, 0) 100%
+      ),
+      rgba(255, 255, 255, 0.05) !important;
   }
 `;
 
@@ -37,7 +42,7 @@ const NavigationWrapper = styled.div`
 `;
 
 const BackButton = styled.button`
-  color:#ffffff;
+  color: #ffffff;
   font-size: 26px;
   padding: 0px;
   border: none;
@@ -48,7 +53,7 @@ const BackButton = styled.button`
 const ProgressBar = styled(Progress)`
   margin: 10px;
   .ant-progress-bg {
-    background-image: linear-gradient(89deg, #523DFF 0%, #FF679E 100%);
+    background-image: linear-gradient(89deg, #523dff 0%, #ff679e 100%);
   }
   .ant-progress-inner {
     background-color: #3c3c3c;
@@ -81,7 +86,17 @@ const NextButtonWrapper = styled.div`
   justify-content: center;
 `;
 
-const ProfileCard: React.FC<Props> = ({ isAllowSkip, isAllowChanged, headline, children, onNext, onPrevious, onSubmit, progressBarPercent, isAllowGoBack = true}) => {
+const ProfileCard: React.FC<Props> = ({
+  isAllowSkip,
+  isAllowChanged,
+  headline,
+  children,
+  onNext,
+  onPrevious,
+  onSubmit,
+  progressBarPercent,
+  isAllowGoBack = true,
+}) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleModalOpen = () => {
@@ -89,38 +104,42 @@ const ProfileCard: React.FC<Props> = ({ isAllowSkip, isAllowChanged, headline, c
       setIsModalVisible(true);
     }
     // TODO: Add any further opertaion here
-  }
+  };
 
   const handleModalOk = () => {
     setIsModalVisible(false);
     // TODO: Add any further opertaion here
-  }
+  };
 
   const handleModalCancel = () => {
     setIsModalVisible(false);
-  }
+  };
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
-  }
+  };
 
   return (
     <ProfileCardWrapper>
       <NavigationWrapper>
-        {
-          isAllowGoBack && <BackButton onClick={() => { onPrevious() }}>&lt;
+        {isAllowGoBack && (
+          <BackButton
+            onClick={() => {
+              onPrevious();
+            }}
+          >
+            &lt;
           </BackButton>
-        }
+        )}
         <ButtonWrapper>
-          {isAllowSkip &&
-            <AntdButton
-              type="text"
-              onClick={() => onNext()}>
+          {isAllowSkip && (
+            <AntdButton type="text" onClick={() => onNext()}>
               跳过
-            </AntdButton>}
+            </AntdButton>
+          )}
         </ButtonWrapper>
       </NavigationWrapper>
 
@@ -128,30 +147,33 @@ const ProfileCard: React.FC<Props> = ({ isAllowSkip, isAllowChanged, headline, c
 
       <Headline>{headline}</Headline>
 
-      <ChildContentWrapper>
-        {children}
-      </ChildContentWrapper>
+      <ChildContentWrapper>{children}</ChildContentWrapper>
 
       <NextButtonWrapper>
         <Button
-          text={"下一步"}
-          onClick={
-            () => {
-              onNext();
-              onSubmit();
-              handleModalOpen();
-              scrollToTop();
-            }}
+          text={'下一步'}
+          onClick={() => {
+            onNext();
+            onSubmit();
+            handleModalOpen();
+            scrollToTop();
+          }}
         />
       </NextButtonWrapper>
 
-      {isAllowChanged &&
-        <Modal open={isModalVisible} onOk={handleModalOk} onCancel={handleModalCancel} okText={"确认"} cancelText={"取消"}>
+      {isAllowChanged && (
+        <Modal
+          open={isModalVisible}
+          onOk={handleModalOk}
+          onCancel={handleModalCancel}
+          okText={'确认'}
+          cancelText={'取消'}
+        >
           确认后不可更改哦
         </Modal>
-      }
+      )}
     </ProfileCardWrapper>
   );
-}
+};
 
 export default ProfileCard;

@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import "@fontsource/zcool-kuaile"
+import React from 'react';
+import styled from 'styled-components';
+import '@fontsource/zcool-kuaile';
 import logo from '../assets/logo.svg';
 
 const LogoContainer = styled.div`
@@ -14,28 +14,26 @@ const LogoImage = styled.img`
 `;
 
 const LogoText = styled.h1`
-font-family: "ZCOOL KuaiLe", sans-serif; 
-font-size: 2.5em;
-color: ${props => props.theme.text};
-//color: white;
-transition: all 0.2s ease;
-&:hover {
+  font-family: 'ZCOOL KuaiLe', sans-serif;
+  font-size: 2.5em;
+  color: ${(props) => props.theme.text};
+  //color: white;
+  transition: all 0.2s ease;
+  &:hover {
     transform: scale(1.1);
-}
+  }
 
-@media (max-width: 64em) {
+  @media (max-width: 64em) {
     font-size: 1.5em;
-}
-
-`
+  }
+`;
 export const Logo = () => {
-    return (
-        <LogoContainer>
-            
-            <LogoImage src={logo} alt="Logo" />
-            <LogoText>柒洽</LogoText>
-        </LogoContainer>
-    )
-}
+  return (
+    <LogoContainer>
+      <LogoImage src={logo} alt="Logo" />
+      <LogoText>柒洽</LogoText>
+    </LogoContainer>
+  );
+};
 
 export default Logo;

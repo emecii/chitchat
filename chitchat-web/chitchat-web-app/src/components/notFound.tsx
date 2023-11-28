@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const NotFoundImage = 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwyMzMyM3wwfDF8c2VhcmNofDF8fHx8fHx8fHwxNjEyMTA5MDk4&ixlib=rb-1.2.1&q=80&w=400'; // 示例图片链接，您可以替换为您喜欢的图片
+const NotFoundImage =
+  'https://images.unsplash.com/photo-1592194996308-7b43878e84a6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwyMzMyM3wwfDF8c2VhcmNofDF8fHx8fHx8fHwxNjEyMTA5MDk4&ixlib=rb-1.2.1&q=80&w=400'; // 示例图片链接，您可以替换为您喜欢的图片
 
 const Container = styled.div`
   display: flex;

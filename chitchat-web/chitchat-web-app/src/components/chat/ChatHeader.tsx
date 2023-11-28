@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { usePkSystemHook } from '../../state/pk-system-hook';
 import { ENDPOINT } from '../../types/Env';
-import GenderType from '../../types/GenderType';
 import { HttpStatus } from '../../types/HttpStatus';
 import { ModelAvatar } from '../../types/ModelAvatar';
 import { fetchModelSrcsByModelIds } from '../../util/fetchModelByModelIds';
@@ -36,84 +35,82 @@ const Avatar = styled.img`
 
 const FORUM_URL = `/forum`;
 
-const PlusOneIcon =
-    {
-        avatarSrc: "https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4579.jpg",
-        modelId: FORUM_URL, // this is not an model id, but let's consider it as a model here
-    } as ModelAvatar
+const PlusOneIcon = {
+  avatarSrc:
+    'https://chichat-images-1317940514.cos.ap-nanjing.myqcloud.com/static/WechatIMG4579.jpg',
+  modelId: FORUM_URL, // this is not an model id, but let's consider it as a model here
+} as ModelAvatar;
 
 const ChatHeader: React.FC = () => {
-    const [state, action] = usePkSystemHook();
-    const [avatarList, setAvatarList] = useState<ModelAvatar[]>([]);
-    const redirectToNewPage = useRedirectToNewPage();
-    const { modelIdLink } = useParams();
+  const [state] = usePkSystemHook();
+  const [avatarList, setAvatarList] = useState<ModelAvatar[]>([]);
+  const redirectToNewPage = useRedirectToNewPage();
+  const { modelIdLink } = useParams();
 
-    const handleAvatarClick = (modelId: string) => {
-        // handle the PlusOne icon, which will jump to forum page
-        if (modelId === FORUM_URL) {
-            redirectToNewPage(FORUM_URL);
-        }
-        else {
-            const CHAT_URL = `/chat/${modelId}`;
-            redirectToNewPage(CHAT_URL);
-        }
+  const handleAvatarClick = (modelId: string) => {
+    // handle the PlusOne icon, which will jump to forum page
+    if (modelId === FORUM_URL) {
+      redirectToNewPage(FORUM_URL);
+    } else {
+      const CHAT_URL = `/chat/${modelId}`;
+      redirectToNewPage(CHAT_URL);
+    }
+  };
+
+  useEffect(() => {
+    const fetchChatHeaderData = async () => {
+      // By default, we fetch all the public models.
+      // if (state.curUserName === "User") {
+      //     await action.fetchUserProfile(GenderType.UNKNOWN, "未命名");
+      // }
+      await axios
+        .get(`${ENDPOINT}/api/chat-models`, {
+          params: {
+            user_id: state.user.id,
+          },
+        })
+        .then(async (response) => {
+          if (response.status === HttpStatus.OK) {
+            let activeModelIdArray = response.data.data as string[];
+
+            // Check if activeModelIdArray exists and if modelIdLink is not the first element.
+            if (
+              modelIdLink &&
+              (!activeModelIdArray || activeModelIdArray[0] !== modelIdLink)
+            ) {
+              // Add modelIdLink to activeModelIdArray and set it as the first element.
+              activeModelIdArray = [modelIdLink].concat(
+                activeModelIdArray.filter((id) => id !== modelIdLink),
+              );
+            }
+
+            const avatarList: ModelAvatar[] =
+              await fetchModelSrcsByModelIds(activeModelIdArray);
+            setAvatarList(avatarList);
+          } else {
+            message.error('页面错误，请刷新重试');
+            console.log('fetchModelProfile response failed', response);
+          }
+        })
+        .catch((err) => {
+          message.error('页面错误，请刷新重试');
+          console.log(err);
+        });
     };
-
-    useEffect(() => {
-        const fetchChatHeaderData = async () => {
-            // By default, we fetch all the public models.
-            console.log("ChatHeader - user name", state.user.profile.username);
-            // if (state.curUserName === "User") {
-            //     await action.fetchUserProfile(GenderType.UNKNOWN, "未命名");
-            // }
-            console.log("ChatHeader - user id", state.user.id);
-            await axios
-                .get(`${ENDPOINT}/api/chat-models`,
-                    {
-                        params: {
-                            user_id: state.user.id,
-                        }
-                    })
-                .then(async (response) => {
-                    console.log("ChatHeader - fetchModelProfile", response)
-                    if (response.status === HttpStatus.OK) {
-                        let activeModelIdArray = response.data.data as string[];
-
-                        // Check if activeModelIdArray exists and if modelIdLink is not the first element.
-                        if (modelIdLink && (!activeModelIdArray || activeModelIdArray[0] !== modelIdLink)) {
-                            // Add modelIdLink to activeModelIdArray and set it as the first element.
-                            activeModelIdArray = [modelIdLink].concat(activeModelIdArray.filter(id => id !== modelIdLink));
-                        }
-
-                        const avatarList: ModelAvatar[] = await fetchModelSrcsByModelIds(activeModelIdArray);
-                        setAvatarList(avatarList);
-                    }
-                    else {
-                        message.error("页面错误，请刷新重试")
-                        console.log("fetchModelProfile response failed", response)
-                    }
-                })
-                .catch((err) => {
-                    message.error("页面错误，请刷新重试");
-                    console.log(err)
-                });
-
-        };
-        fetchChatHeaderData();
-    }, [modelIdLink, state.user.id, state.user.profile.username]);
-    return (
-        <ChatHeaderWrapper>
-            {[...avatarList, PlusOneIcon].map((model, index) => (
-                <Avatar
-                    key={`${model.modelId}-${index}`}
-                    src={model.avatarSrc}
-                    onClick={() => handleAvatarClick(model.modelId)}
-                    alt={"avatar"}
-                />
-            ))}
-
-        </ChatHeaderWrapper>
-    );
+    fetchChatHeaderData();
+  }, [modelIdLink, state.user.id, state.user.profile.username]);
+  return (
+    <ChatHeaderWrapper>
+      {[...avatarList, PlusOneIcon].map((model, index) => (
+        <Avatar
+          key={`${model.modelId}-${index}`}
+          src={model.avatarSrc}
+          onClick={() => handleAvatarClick(model.modelId)}
+          alt={'avatar'}
+        />
+      ))}
+    </ChatHeaderWrapper>
+  );
 };
 
 export default ChatHeader;

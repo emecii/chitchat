@@ -1,20 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import GIF from '../assets/demoVideo.mp4'
+import React from 'react';
+import styled from 'styled-components';
 import img from '../assets/coverImage1.png';
 const VideoContainer = styled.div`
-width: 100%;
+  width: 100%;
 
-video{
+  video {
     width: 100%;
     height: auto;
-}
+  }
 
-@media (max-width: 64em) {
-  min-width: 40vh;
-}
+  @media (max-width: 64em) {
+    min-width: 40vh;
+  }
 
-img {
+  img {
     width: 100%;
     height: auto;
     max-width: 600px;
@@ -25,17 +24,16 @@ img {
   @media (max-width: 64em) {
     min-width: 40vh;
   }
-  
-`
+`;
 const CoverVideo = () => {
   return (
     <VideoContainer>
-        {/* <video autoPlay muted loop>
+      {/* <video autoPlay muted loop>
           <source src={GIF} type="video/mp4" />
         </video> */}
-         <img src={img} alt="Cover image" /> 
+      <img src={img} alt="Cover image" />
     </VideoContainer>
-  )
-}
+  );
+};
 
-export default CoverVideo
+export default CoverVideo;

@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useRef, useState } from 'react';
+import React, { Suspense, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { BsPlus } from 'react-icons/bs';
 import MyBotTagItems from '../../types/MyBotTagItems';
@@ -12,8 +12,7 @@ import { message, Modal } from 'antd';
 import Loading from '../../app/Loading';
 import { useShareToWechat } from './shareToWeChat';
 import { useRedirectToNewPage } from '../../util/redirectToNewPage';
-import GenderType from '../../types/GenderType';
-import { defaultAvatarUrl } from '../../types/DefaultAvatarUrl';
+import { DEFAULT_AVATAR_URL } from '../../types/DefaultAvatarUrl';
 import Button from '../../app/Button';
 
 const Container = styled.div`
@@ -278,8 +277,8 @@ const StyledSelect = styled.select`
 `;
 
 const CreateNewBot = ({ modelId }: { modelId: string }) => {
-  const [state, action] = usePkSystemHook();
-  const [tags, setTags] = useState(MyBotTagItems);
+  const [state] = usePkSystemHook();
+  const [tags] = useState(MyBotTagItems);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
@@ -397,7 +396,7 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
     // If no avatar uploaded
     if (uploadedImages.length === 0) {
       // Add the defualt avatar url to the state
-      setUploadedImages([...uploadedImages, defaultAvatarUrl]);
+      setUploadedImages([...uploadedImages, DEFAULT_AVATAR_URL]);
     }
 
     const modelMetadata = {
@@ -412,10 +411,10 @@ const CreateNewBot = ({ modelId }: { modelId: string }) => {
       is_public: isPublicAiBot,
       greetings: greeting,
       relationship: relationship,
-      image_url: uploadedImages.length > 0 ? uploadedImages[0] : defaultAvatarUrl,
+      image_url: uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
       upVote: 1,
       downVote: 0,
-      img_url: uploadedImages.length > 0 ? uploadedImages[0] : defaultAvatarUrl,
+      img_url: uploadedImages.length > 0 ? uploadedImages[0] : DEFAULT_AVATAR_URL,
       city: city,
       hometown: hometown,
       dislike: dislike,

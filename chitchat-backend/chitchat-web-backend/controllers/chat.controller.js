@@ -2,13 +2,25 @@ import { findById } from "../services/userServices.js";
 import { getModelByModelId } from "../services/modelProfileService.js";
 import ChatClientFactory from "../chat-client/chat-client-factory.js";
 import { ChatClientType } from "../chat-client/chat-client-factory.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+const allowed_model_string = process.env.ALLOWED_MODEL_IDS;
+var allowed_model_ids = [];
+if (allowed_model_string) {
+  allowed_model_ids = allowed_model_string.split(",");
+}
 
 export const sendMessage = async (req, res) => {
   try {
     const message = req.body.message;
-    const user_id = req.body.user_id;
+    var user_id = req.body.user_id;
     const model_id = req.body.model_id;
     var user = await findById(user_id);
+    if (user == null && allowed_model_ids.includes(model_id)) {
+      user_id = "mx3ut9pdrs";
+      user = await findById(user_id);
+    }
     var model = await getModelByModelId(model_id);
     var chat_client = ChatClientFactory.createChatClient(
       ChatClientType.CHATGPT,
@@ -30,9 +42,13 @@ export const sendMessage = async (req, res) => {
 
 export const joinChat = async (req, res) => {
   try {
-    const user_id = req.body.user_id;
+    var user_id = req.body.user_id;
     const model_id = req.body.model_id;
     var user = await findById(user_id);
+    if (user == null && allowed_model_ids.includes(model_id)) {
+      user_id = "mx3ut9pdrs";
+      user = await findById(user_id);
+    }
     var model = await getModelByModelId(model_id);
     var chat_client = ChatClientFactory.createChatClient(
       ChatClientType.CHATGPT,

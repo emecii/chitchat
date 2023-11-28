@@ -16,7 +16,6 @@ const Loader = styled.div`
   align-items: center;
 `;
 
-
 const spin = keyframes`
   0% {
     transform: rotate(0deg);
@@ -45,9 +44,7 @@ const Loading = () => {
         <div />
       </Spinner>
     </Loader>
-
   );
-
 };
 
 export default Loading;

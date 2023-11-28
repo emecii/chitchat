@@ -1,11 +1,11 @@
 import { pkSystemState, PkSystemState } from './pk-system-state';
-import { pkSystemAction, PkSystemAction } from './pk-system-action'
+import { pkSystemAction, PkSystemAction } from './pk-system-action';
 export const baseState = {
-    ...pkSystemState,
+  ...pkSystemState,
 };
 
 export const baseActions = {
-   ...pkSystemAction,
+  ...pkSystemAction,
 };
 
 export type BaseState = PkSystemState;

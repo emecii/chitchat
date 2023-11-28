@@ -168,8 +168,12 @@
 
 .empty-chat-sub-title {
   text-align: center;
-  color: #555;
+  color: #fcf9f9;
   font-size: 18px;
+}
+
+.welcome-to-chitchat {
+  color: #ffffff;
 }
 
 .loading-messages-container {
@@ -181,7 +185,7 @@
 }
 
 .loading-text {
-  color: #0e0e0e;
+  color: #ffffff;
   font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
   font-size: 25px;
   margin-top: 20px;

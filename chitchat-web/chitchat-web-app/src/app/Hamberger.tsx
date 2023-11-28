@@ -35,7 +35,8 @@ const HamburgerButton = styled.button<HamburgerButtonProps>`
 
     &:nth-child(2) {
       opacity: ${(props) => (props.isOpen ? '0' : '1')};
-      transform: ${(props) => (props.isOpen ? 'translateX(20px)' : 'translateX(0)')};
+      transform: ${(props) =>
+        props.isOpen ? 'translateX(20px)' : 'translateX(0)'};
     }
 
     &:nth-child(3) {

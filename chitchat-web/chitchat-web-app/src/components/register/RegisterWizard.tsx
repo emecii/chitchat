@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import ProfileCard from "./ProfileCard";
-import MBTISurveyComponent from "./mbti/MBTISurveyComponent";
-import MBTIComponent from "./mbti/MBTIComponent";
-import UserTagSelection from "./userTag/UserTagSelection";
-import AvatarSelection from "./avatar/AvatarSelction";
-import GenericCollection from "./profile/GenericCollection";
-import GenderCollection from "./profile/GenderCollection";
-import { usePkSystemHook } from "../../state/pk-system-hook";
-import GenderType from "../../types/GenderType";
-import axios from "axios";
-import { ENDPOINT } from "../../types/Env";
-import { List, message, Modal } from "antd";
-import { HttpStatus } from "../../types/HttpStatus";
-import { validateUserProfile } from "../../util/validate";
-import { useRedirectToNewPage } from "../../util/redirectToNewPage";
+import React, { useState } from 'react';
+import ProfileCard from './ProfileCard';
+import MBTISurveyComponent from './mbti/MBTISurveyComponent';
+import MBTIComponent from './mbti/MBTIComponent';
+import UserTagSelection from './userTag/UserTagSelection';
+import AvatarSelection from './avatar/AvatarSelction';
+import GenericCollection from './profile/GenericCollection';
+import GenderCollection from './profile/GenderCollection';
+import { usePkSystemHook } from '../../state/pk-system-hook';
+import GenderType from '../../types/GenderType';
+import axios from 'axios';
+import { ENDPOINT } from '../../types/Env';
+import { List, message, Modal } from 'antd';
+import { HttpStatus } from '../../types/HttpStatus';
+import { validateUserProfile } from '../../util/validate';
+import { useRedirectToNewPage } from '../../util/redirectToNewPage';
 
 interface MBTISurveyComponentProps {
   onMBTITypeChange: (value: string) => void;
@@ -52,47 +52,47 @@ const RegisterWizard: React.FC = () => {
   const [state, action] = usePkSystemHook();
   const [errors, setErrors] = useState<string[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState('');
   const [dob, setDOB] = useState(new Date());
   const [gender, setGender] = useState(GenderType.UNKNOWN);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [avatarUrl, setAvatarUrl] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
-  const [mbtiType, setMBTIType] = useState("IDK");
+  const [mbtiType, setMBTIType] = useState('IDK');
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
   // TODO: post the selectedTags to backend
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const questionsScores = [1, 2, 4, 8];
   const mbtiQuestions = [
-    "和一群人party一天后",
-    "晚上看完抽象艺术展回家",
-    "刷到乞讨老人的视频",
-    "当接到一项工作/任务时",
+    '和一群人party一天后',
+    '晚上看完抽象艺术展回家',
+    '刷到乞讨老人的视频',
+    '当接到一项工作/任务时',
   ];
   const mbtiOptions = [
-    ["救命！急需独处回血！", "明天咱还能聚一回吗"], //I, E
-    ["满脑子想法乱窜到后半夜", "呀！困了...睡"], // N, S
-    ["从他怎么了联想到天下苍生", "世界就是这样默默滑过"], // F, T
-    ["马上开始行动计划", "卧敲！明天要交？"], // J, P
+    ['救命！急需独处回血！', '明天咱还能聚一回吗'], //I, E
+    ['满脑子想法乱窜到后半夜', '呀！困了...睡'], // N, S
+    ['从他怎么了联想到天下苍生', '世界就是这样默默滑过'], // F, T
+    ['马上开始行动计划', '卧敲！明天要交？'], // J, P
   ];
   // Used for map mbtiScore to mbtiType
   const mbtiMap: Map<number, string> = new Map([
-    [0, "INFJ"], // 0000
-    [1, "INFP"], // 0001
-    [2, "INTJ"], // 0010
-    [3, "INTP"], // 0011
-    [4, "ISFJ"], // 0100
-    [5, "ISFP"], // 0101
-    [6, "ISTJ"], // 0110
-    [7, "ISTP"], // 0111
-    [8, "ENFJ"], // 1000
-    [9, "ENFP"], // 1001
-    [10, "ENTJ"], // 1010
-    [11, "ENTP"], // 1011
-    [12, "ESFJ"], // 1100
-    [13, "ESFP"], // 1101
-    [14, "ESTJ"], // 1110
-    [15, "ESTP"], // 1111
+    [0, 'INFJ'], // 0000
+    [1, 'INFP'], // 0001
+    [2, 'INTJ'], // 0010
+    [3, 'INTP'], // 0011
+    [4, 'ISFJ'], // 0100
+    [5, 'ISFP'], // 0101
+    [6, 'ISTJ'], // 0110
+    [7, 'ISTP'], // 0111
+    [8, 'ENFJ'], // 1000
+    [9, 'ENFP'], // 1001
+    [10, 'ENTJ'], // 1010
+    [11, 'ENTP'], // 1011
+    [12, 'ESFJ'], // 1100
+    [13, 'ESFP'], // 1101
+    [14, 'ESTJ'], // 1110
+    [15, 'ESTP'], // 1111
   ]);
   const handleUsernameChange = (username: string) => {
     setUsername(username);
@@ -173,7 +173,6 @@ const RegisterWizard: React.FC = () => {
   const redirectToNewPage = useRedirectToNewPage();
 
   const profileSubmit = async () => {
-    console.log("submitting profile", state.user.profile);
     // TODO: add the mbti and user tags as well
     const userProfile = {
       user_id: state.user.id,
@@ -187,7 +186,6 @@ const RegisterWizard: React.FC = () => {
     const validationErrors = await validateUserProfile(userProfile);
     if (Object.keys(validationErrors).length > 0) {
       // TODO: show error message on front end and ask User to input again.
-      console.log("validationErrors", validationErrors);
       setErrors(Object.values(validationErrors));
       setIsModalVisible(true); // Show the modal
       return;
@@ -204,26 +202,25 @@ const RegisterWizard: React.FC = () => {
       })
       .then((response) => {
         if (response.status === HttpStatus.OK) {
-          console.log("fetchModelProfile message", response.data.message);
-          message.info("注册成功!");
+          message.info('注册成功!');
         } else {
-          message.error("页面错误，请稍后重试或添加下方微信群联系管理员。");
+          message.error('页面错误，请稍后重试或添加下方微信群联系管理员。');
         }
       })
       .catch((err) => {
         if (err.response && err.response.status === 409) {
           // handle conflict error here
-          message.error("用户已存在,请稍后重试或添加下方微信群联系管理员。");
+          message.error('用户已存在,请稍后重试或添加下方微信群联系管理员。');
         } else {
           console.error(err);
         }
       });
-    var mbtiString = mbtiType;
-    if (mbtiType === "IDK") {
+    let mbtiString = mbtiType;
+    if (mbtiType === 'IDK') {
       if (mbtiMap.has(mbtiScore)) {
         mbtiString = mbtiMap.get(mbtiScore)!;
       } else {
-        console.error("mbtiScore not found in mbtiMap, score is", mbtiScore);
+        console.error('mbtiScore not found in mbtiMap, score is', mbtiScore);
       }
     }
     await axios.post(`${ENDPOINT}/api/upsert-user-tags`, {
@@ -232,7 +229,7 @@ const RegisterWizard: React.FC = () => {
       user_mbti_tag: mbtiString,
     });
     // Jump to login page
-    redirectToNewPage("/login");
+    redirectToNewPage('/login');
   };
 
   return (
@@ -284,19 +281,21 @@ const RegisterWizard: React.FC = () => {
       )}
       {currentStep === 3 && (
         <ProfileCard
-        headline="手机号"
-        progressBarPercent={30}
-        onNext={nextStep}
-        onSubmit={phoneNumberSubmit}
-        onPrevious={prevStep}
-      >
-        <div style={{marginBottom: '10px'}}>手机号将用于登录，所以请确保输入正确无误。目前仅支持中国手机号。</div>
-        <GenericCollection
-          value={phoneNumber}
-          inputType="text"
-          onInputChange={handlePhoneNumberChange}
-        />
-      </ProfileCard>
+          headline="手机号"
+          progressBarPercent={30}
+          onNext={nextStep}
+          onSubmit={phoneNumberSubmit}
+          onPrevious={prevStep}
+        >
+          <div style={{ marginBottom: '10px' }}>
+            手机号将用于登录，所以请确保输入正确无误。目前仅支持中国手机号。
+          </div>
+          <GenericCollection
+            value={phoneNumber}
+            inputType="text"
+            onInputChange={handlePhoneNumberChange}
+          />
+        </ProfileCard>
       )}
       {currentStep === 4 && (
         <ProfileCard
@@ -317,7 +316,7 @@ const RegisterWizard: React.FC = () => {
           headline="MBTI 小调查"
           progressBarPercent={40}
           onNext={() => {
-            if (mbtiType === "IDK") {
+            if (mbtiType === 'IDK') {
               nextStep();
             } else {
               nextXSteps(5);
@@ -353,7 +352,7 @@ const RegisterWizard: React.FC = () => {
           onNext={nextStep}
           onSubmit={selectedTagsSubmit}
           onPrevious={() => {
-            if (mbtiType === "IDK") {
+            if (mbtiType === 'IDK') {
               prevStep();
             } else {
               prevXStep(5);

@@ -13,7 +13,7 @@ const GenericCollection: React.FC<GenericCollectionProps<any>> = ({
   headline,
   inputType,
   onInputChange,
-  value
+  value,
 }) => {
   const renderField = () => {
     if (inputType === 'date') {
