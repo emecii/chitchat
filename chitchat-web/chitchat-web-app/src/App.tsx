@@ -16,7 +16,8 @@ import { usePkSystemHook } from './state/pk-system-hook';
 import Register from './components/register.component';
 import ProfileUpdate from './components/profileUpdate.component';
 import Login from './components/login.component';
-import SanofiDemoPage from './components/sanofi/sanofiDemoPage';
+import SanofiDemoPage from './components/demoPage/sanofiDemoPage';
+import MedCatDemoPage from './components/demoPage/medCatDemoPage';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/sanofiDemo" element={<SanofiDemoPage />} />
+          <Route path="/medCatDemo" element={<MedCatDemoPage />} />
           <Route
             path="/profileUpdate"
             element={
