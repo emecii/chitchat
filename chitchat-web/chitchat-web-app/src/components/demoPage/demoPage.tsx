@@ -20,7 +20,7 @@ const StyledIframe = styled.iframe`
   allowFullScreen; // 允许全屏
 `;
 
-const SanofiDemoPage = () => {
+const DemoPage = () => {
     return (
         <FullScreenSection>
             <StyledIframe 
@@ -30,4 +30,4 @@ const SanofiDemoPage = () => {
     );
 };
 
-export default SanofiDemoPage;
+export default DemoPage;

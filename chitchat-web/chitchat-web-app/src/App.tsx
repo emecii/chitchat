@@ -16,7 +16,7 @@ import { usePkSystemHook } from './state/pk-system-hook';
 import Register from './components/register.component';
 import ProfileUpdate from './components/profileUpdate.component';
 import Login from './components/login.component';
-import SanofiDemoPage from './components/demoPage/sanofiDemoPage';
+import DemoPage from './components/demoPage/demoPage';
 import MedCatDemoPage from './components/demoPage/medCatDemoPage';
 
 const App: React.FC = () => {
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           <Route path="/mybot" element={<MyBot />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/sanofiDemo" element={<SanofiDemoPage />} />
+          <Route path="/demo" element={<DemoPage />} />
           <Route path="/medCatDemo" element={<MedCatDemoPage />} />
           <Route
             path="/profileUpdate"
